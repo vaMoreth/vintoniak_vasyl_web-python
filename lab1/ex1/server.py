@@ -17,11 +17,15 @@ print(f"Прийнято підключення від {client_address}")
 while True:
     data = client_socket.recv(1024).decode('utf-8')
     if not data:
-        print("Прощавай!")
         break
 
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"Отримано: '{data}' в {current_time}")
+
+    import time
+    time.sleep(5)
+
+    client_socket.send(data.encode('utf-8'))
 
 client_socket.close()
 server_socket.close()
