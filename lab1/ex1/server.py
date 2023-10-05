@@ -22,6 +22,9 @@ while True:
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"Отримано: '{data}' в {current_time}")
 
+    if data.lower() == 'вихід':
+        break
+
     import time
     time.sleep(5)
 
