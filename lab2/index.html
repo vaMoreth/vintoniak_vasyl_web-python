@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukraine</title>
+</head>
+<body>
+    <form action="cgi-bin/process_form.py" method="post">
+        <h1>Vintoniak Vasyl</h1>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label>Gender:</label><br>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label><br>
+
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label><br><br>
+
+        <label>Favorite Ukrainian Food:</label><br>
+        <input type="checkbox" id="borscht" name="food[]" value="borscht">
+        <label for="borscht">Borscht</label><br>
+
+        <input type="checkbox" id="varenyky" name="food[]" value="varenyky">
+        <label for="varenyky">Varenyky</label><br>
+
+        <input type="checkbox" id="salo" name="food[]" value="salo">
+        <label for="salo">Salo</label><br><br>
+
+        <label for="city">Favorite Ukrainian City:</label>
+        <select id="city" name="city">
+            <option value="ivano-frankivsk">Ivano-Frankivsk</option>
+            <option value="kyiv">Kyiv</option>
+            <option value="lviv">Lviv</option>
+            <option value="odessa">Odessa</option>
+        </select><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
