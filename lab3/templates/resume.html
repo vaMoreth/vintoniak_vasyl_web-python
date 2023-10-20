@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% extends 'base.html' %}
+
+    {% block title %}Резюме{% endblock %}
+
+    {% block content %}
+        <div class="container">
+            <div class="wrapper">
+              <h2>Моє Резюме</h2>
+              <p>Тут моє резюме зі всіма навичками</p>
+            </div>
+        </div>
+          <table>
+            <tr>
+              <th>Компанія</th>
+              <th>Досвід роботи</th>
+              <th>Посада</th>
+            </tr>
+          </table>
+    {% endblock %}
+</body>
+</html>
