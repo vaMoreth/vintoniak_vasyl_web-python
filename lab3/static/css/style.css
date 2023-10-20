@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.content {
+    flex-grow: 1;
+    padding: 25px 60px;
+}
+.container {
+    display: flex;
+    gap: 30px;
+}
+
+img {
+    height: 80px;
+}
+footer {
+    background: #ccc;
+    display: flex;
+    gap: 30px;
+    padding: 10px 30px;
+}
+h2 {
+    margin: 10px 0;
+}
+
+header {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+nav {
+    background-color: black;
+    padding: 10px;
+}
+
+nav ul {
+    display: flex;
+    gap: 20px;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+
+}
+nav a:hover {
+    text-decoration: underline;
+}

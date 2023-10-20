@@ -7,7 +7,7 @@ def home():
     return render_template('portfolio.html')
 
 @app.route('/portfolio')
-def main():
+def portfolio():
     return render_template('portfolio.html')
 
 @app.route('/skills')
@@ -15,7 +15,7 @@ def skills():
     return render_template('skills.html')
 
 @app.route('/resume')
-def characteristic():
+def resume():
     return render_template('resume.html')
 
 if __name__ == '__main__':

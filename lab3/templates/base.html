@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Vintoniak Vasyl{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
@@ -14,17 +15,19 @@
         </div>
          <nav>
             <ul>
-                <li><a href="{{ url_for('home') }}">Головна</a></li>
+                <li><a href="{{ url_for('portfolio') }}">Головна</a></li>
                 <li><a href="{{ url_for('portfolio') }}">Portfolio</a></li>
-                <li><a href="{{ url_for('skills') }}">">Skills</a></li>
-                <li><a href="{{ url_for('resume') }}">">Resume</a></li>
+                <li><a href="{{ url_for('skills') }}">Skills</a></li>
+                <li><a href="{{ url_for('resume') }}">Resume</a></li>
             </ul>
         </nav>
     </header>
 
-    <div>
+    <div class="container">
         {% block content %}{% endblock %}
     </div>
-
+    <footer>
+        &copy; 2023 My Portfolio
+    </footer>
 </body>
 </html>
