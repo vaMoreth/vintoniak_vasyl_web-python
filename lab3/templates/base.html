@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Vintoniak Vasyl{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
@@ -28,6 +28,9 @@
     </div>
     <footer>
         &copy; 2023 My Portfolio
+        <p>OS: {{ os_info }}</p>
+        <p>User Agent: {{ user_agent }}</p>
+        <p>Current Time: {{ current_time }}</p>
     </footer>
 </body>
 </html>
