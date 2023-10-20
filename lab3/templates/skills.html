@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Навички</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     {% extends 'base.html' %}
@@ -18,13 +18,11 @@
               <p>Тут відображені мої навички</p>
             </div>
         </div>
-          <table>
-            <tr>
-              <th>Мова програмування</th>
-              <th>Досвід роботи</th>
-              <th>Ключові слова</th>
-            </tr>
-          </table>
+        <ul>
+            {% for skill in skills %}
+                <li><a href="{{ url_for('display_skills', id=loop.index0) }}">{{ skill }}</a></li>
+            {% endfor %}
+        </ul>
     {% endblock %}
 </body>
 </html>

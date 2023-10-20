@@ -4,6 +4,27 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+my_skills = [
+    "Python",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "SQL",
+    "Git",
+    "C#",
+]
+
+@app.route('/skills')
+@app.route('/skills/<int:id>')
+def display_skills(id=None):
+    if id is None:
+        total_skills = len(my_skills)
+        return render_template('skills.html', skills=my_skills, total_skills=total_skills)
+    elif id < len(my_skills):
+        return render_template('skills.html', skills=[my_skills[id]])
+    else:
+        return "Немає навички з таким id"
+
 @app.route('/')
 def home():
     os_info = os.name
