@@ -25,9 +25,10 @@ def login():
 @app.route('/info')
 def info():
     if 'username' in session:
-        return render_template('info.html')
+        username = session['username']
+        return render_template('info.html', username=username)
     else:
-        return "You are not logged in."
+        return redirect(url_for('home'))
 
 @app.route('/logout')
 def logout():

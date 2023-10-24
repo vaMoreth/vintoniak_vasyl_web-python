@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-
+    {% if username %}
+       <h1>Привіт, {{ username }}!</h1>
+       <p>Ти успішно зайшов на цю сторінку</p>
+       <a href="/logout">Logout</a>
+   {% else %}
+       <p>You are not logged in. Please <a href="/">login</a> first.</p>
+   {% endif %}
 </body>
 </html>
