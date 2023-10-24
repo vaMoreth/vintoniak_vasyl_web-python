@@ -10,9 +10,46 @@
     {% if username %}
        <h1>Привіт, {{ username }}!</h1>
        <p>Ти успішно зайшов на цю сторінку</p>
+
+       <br><br><h2>Cookies:</h2>
+       <form method="post">
+           <label for="key">Ключ:</label>
+           <input type="text" name="key" id="key">
+           <label for="value">Значення:</label>
+           <input type="text" name="value" id="value">
+           <label for="expiration">Термін дії (у секундах):</label>
+           <input type="number" name="expiration" id="expiration">
+           <input type="submit" name="action" value="add" id="add" onclick="clearInput('delete');">
+           <input type="submit" name="action" value="delete" id="delete" onclick="clearInput('add');">
+       </form>
+       {% if message %}
+           <p>{{ message }}</p>
+       {% endif %}
+       <br><br><br><table>
+           <tr>
+                <th>Key</th>
+                <th>Value</th>
+                <th>Expiration</th>
+                <th>Created</th>
+           </tr>
+           {% for cookie in cookies %}
+               <tr>
+                   <td>{{ cookie.key }}</td>
+                   <td>{{ cookie.value }}</td>
+                   <td>{{ cookie.expiration }}</td>
+                   <td>{{ cookie.created }}</td>
+               </tr>
+           {% endfor %}
+       </table><br><br><br>
        <a href="/logout">Logout</a>
    {% else %}
-       <p>You are not logged in. Please <a href="/">login</a> first.</p>
+       <p>Ви не увійшли. Будь ласка, <a href="/">увійдіть</a> спочатку.</p>
    {% endif %}
+
+    <script>
+        function clearInput(action) {
+            document.getElementById(action).value = '';
+        }
+    </script>
 </body>
 </html>
