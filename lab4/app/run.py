@@ -25,17 +25,18 @@ def login():
 
 @app.route('/info', methods=['GET', 'POST'])
 def info():
-    message = ""  # Initialize the message variable with an empty string
+    message = ""
 
     if 'username' in session:
         username = session['username']
 
-        # Handle adding and deleting cookies
+
         if request.method == 'POST':
             action = request.form.get('action')
             key = request.form.get('key')
             value = request.form.get('value')
             expiration = request.form.get('expiration')
+            
 
             if action == 'add':
                 if key and value and expiration:
@@ -55,23 +56,25 @@ def info():
             else:
                 message = "Invalid action."
 
-        # Display current saved cookies in a table
+        password_change_message = request.args.get('message')
+        if password_change_message:
+            message = password_change_message
+
         cookies = request.cookies
         cookie_data = []
         for key, value in cookies.items():
             if key.endswith('_expires'):
-                continue  # Skip special cookie keys
+                continue
 
             expires_timestamp = request.cookies.get(key + '_expires')
             created_timestamp = request.cookies.get(key + '_created')
 
             if expires_timestamp is not None and created_timestamp is not None:
-                expires = datetime.datetime.fromtimestamp(expires_timestamp)
-                created = datetime.datetime.fromtimestamp(created_timestamp)
+                expires = datetime.datetime.fromtimestamp(float(expires_timestamp))
+                created = datetime.datetime.fromtimestamp(float(created_timestamp))
                 cookie_data.append({'key': key, 'value': value, 'expiration': expires, 'created': created})
 
         return render_template('info.html', username=username, cookies=cookie_data, message=message)
-
     else:
         return redirect(url_for('home'))
 
@@ -79,6 +82,21 @@ def info():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    return redirect(url_for('home'))
+
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    if 'username' in session:
+        new_password = request.form.get('new_password')
+
+        if new_password:
+            username = session['username']
+            users[username] = new_password
+
+            return redirect(url_for('info', message="Password changed successfully"))
+        else:
+            return redirect(url_for('info', message="Invalid new password"))
+
     return redirect(url_for('home'))
 
 if __name__ == '__main__':

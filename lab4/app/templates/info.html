@@ -41,7 +41,16 @@
                </tr>
            {% endfor %}
        </table><br><br><br>
-       <a href="/logout">Logout</a>
+
+       <h2>Поміняти пароль:</h2>
+        <form method="post" action="/change_password">
+            <label for="new_password">Новий пароль:</label>
+            <input type="password" name="new_password" required><br><br>
+            <input type="submit" value="Поміняти">
+        </form><br><br><br>
+
+
+       <a href="/logout">Вийти</a>
    {% else %}
        <p>Ви не увійшли. Будь ласка, <a href="/">увійдіть</a> спочатку.</p>
    {% endif %}
