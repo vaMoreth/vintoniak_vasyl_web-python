@@ -16,12 +16,15 @@ my_skills = [
 
 @app.route('/skills')
 @app.route('/skills/<int:id>')
-def display_skills(id=None):
+def skills(id=None):
+    os_info = os.name
+    user_agent = request.user_agent.string
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     if id is None:
         total_skills = len(my_skills)
-        return render_template('skills.html', skills=my_skills, total_skills=total_skills)
+        return render_template('skills.html', skills=my_skills, total_skills=total_skills, os_info=os_info, user_agent=user_agent, current_time=current_time)
     elif id < len(my_skills):
-        return render_template('skills.html', skills=[my_skills[id]])
+        return render_template('skill.html', skills=[my_skills[id]], id=id, os_info=os_info, user_agent=user_agent, current_time=current_time)
     else:
         return "Немає навички з таким id"
 
@@ -39,12 +42,12 @@ def portfolio():
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     return render_template('portfolio.html', os_info=os_info, user_agent=user_agent, current_time=current_time)
 
-@app.route('/skills')
-def skills():
-    os_info = os.name
-    user_agent = request.user_agent.string
-    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    return render_template('skills.html', os_info=os_info, user_agent=user_agent, current_time=current_time)
+# @app.route('/skills')
+# def skills():
+#     os_info = os.name
+#     user_agent = request.user_agent.string
+#     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+#     return render_template('skills.html', os_info=os_info, user_agent=user_agent, current_time=current_time)
 
 @app.route('/resume')
 def resume():

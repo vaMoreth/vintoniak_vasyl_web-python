@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Навички</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
     {% extends 'base.html' %}
 
     {% block title %}Навички{% endblock %}
@@ -15,14 +6,14 @@
         <div class="container">
             <div class="wrapper">
               <h2>Мої навички</h2>
-              <p>Тут відображені мої навички</p>
             </div>
         </div>
-        <ul>
+        <ul class="skills_ul">
             {% for skill in skills %}
-                <li><a href="{{ url_for('display_skills', id=loop.index0) }}">{{ skill }}</a></li>
+                <li><a href="{{ url_for('skills', id=loop.index0) }}">{{ skill }}</a></li>
             {% endfor %}
         </ul>
+        <h2 class="h2_skills">
+            Кількість навичок: {{ total_skills }}
+        </h2>
     {% endblock %}
-</body>
-</html>

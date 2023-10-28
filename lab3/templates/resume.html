@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Резюме</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    {% extends 'base.html' %}
+     {% extends 'base.html' %}
 
     {% block title %}Резюме{% endblock %}
 
@@ -18,13 +9,16 @@
               <p>Тут моє резюме зі всіма навичками</p>
             </div>
         </div>
-          <table>
+          <table class="table_resume">
             <tr>
               <th>Компанія</th>
               <th>Досвід роботи</th>
               <th>Посада</th>
             </tr>
+            <tr>
+                <td>Немає</td>
+                <td>Немає</td>
+                <td>Немає</td>
+            </tr>
           </table>
     {% endblock %}
-</body>
-</html>
