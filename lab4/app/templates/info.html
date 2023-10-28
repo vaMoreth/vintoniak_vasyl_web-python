@@ -8,49 +8,69 @@
 </head>
 <body>
     {% if username %}
-       <h1>Привіт, {{ username }}!</h1>
-       <p>Ти успішно зайшов на цю сторінку</p>
+        <div class="main_text">
+            <h1>Привіт, {{ username }}!</h1>
+            <p>Ти успішно зайшов на цю сторінку</p>
+        </div><br><br><hr><br>
 
-       <br><br><h2>Cookies:</h2>
-       <form method="post">
-           <label for="key">Ключ:</label>
-           <input type="text" name="key" id="key">
-           <label for="value">Значення:</label>
-           <input type="text" name="value" id="value">
-           <label for="expiration">Термін дії (у секундах):</label>
-           <input type="number" name="expiration" id="expiration">
-           <input type="submit" name="action" value="add" id="add" onclick="clearInput('delete');">
-           <input type="submit" name="action" value="delete" id="delete" onclick="clearInput('add');">
-       </form>
-       {% if message %}
-           <p>{{ message }}</p>
-       {% endif %}
-       <br><br><br><table>
-           <tr>
-                <th>Key</th>
-                <th>Value</th>
-                <th>Expiration</th>
-                <th>Created</th>
-           </tr>
-           {% for cookie in cookies %}
-               <tr>
-                   <td>{{ cookie.key }}</td>
-                   <td>{{ cookie.value }}</td>
-                   <td>{{ cookie.expiration }}</td>
-                   <td>{{ cookie.created }}</td>
-               </tr>
-           {% endfor %}
-       </table><br><br><br>
+        <form action="{{ url_for('setCookie') }}" method="POST">
+            <div class="form-group">
+                <label for="key" class="form-label mt-4">Key</label>
+                <input type="text" class="form-control" id="key" name="key"  placeholder="Key">
+                <label for="value" class="form-label mt-4">Value</label>
+                <input type="text" class="form-control" id="value" name="value" placeholder="Value">
+            </div>
+            <div class="form-group">
+                <label for="days" class="form-label mt-4">Expiry time (in days)</label>
+                <input type="number" class="form-control" id="days" name="days" placeholder="1">                            
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Set cookie</button>
+        </form><br><br><hr><br>
+
+
+        <form action="{{ url_for('deleteCookieByKey') }}" method="POST">
+            <div class="form-group">
+                <label for="key" class="form-label mt-4">Key</label>
+                <input type="text" class="form-control" id="key" name="key"  placeholder="Key" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Delete by Key</button>
+        </form>
+        <br>
+        <form action="{{ url_for('deleteCookieAll') }}" method="POST">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Delete All</button>
+        </form><br><br><hr><br>
+
+        <h4 class="text-center">Cookies</h4>
+        <table class="table table-hover mt-30">
+            <thead>
+              <tr>
+                <th scope="col">№</th>
+                <th scope="col">Key</th>
+                <th scope="col">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for key, value in cookies.items() %}
+                    <tr class="table-dark">
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ key }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table><br><br><hr><br>
 
        <h2>Поміняти пароль:</h2>
         <form method="post" action="/change_password">
             <label for="new_password">Новий пароль:</label>
             <input type="password" name="new_password" required><br><br>
-            <input type="submit" value="Поміняти">
-        </form><br><br><br>
+            <input type="submit" value="Change">
+        </form><br><br><hr><br>
 
 
-       <a href="/logout">Вийти</a>
+       <a href="/logout">Вийти</a><br><br>
    {% else %}
        <p>Ви не увійшли. Будь ласка, <a href="/">увійдіть</a> спочатку.</p>
    {% endif %}

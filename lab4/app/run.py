@@ -21,63 +21,46 @@ def login():
         session['username'] = username
         return redirect(url_for('info'))
     else:
-        return "Login failed. Please check your username and password."
-
-@app.route('/info', methods=['GET', 'POST'])
+        return "Помилка логіну. Перевірте своє ім'я користувача та пароль."
+    
+@app.route("/info", methods=['GET', 'POST'])
 def info():
-    message = ""
+    
+    if not session.get("username"):
+        ("Please check the box 'remember me'", "danger")
+        return redirect(url_for('login'))
+    
+    username = session.get("username")
+    cookies = request.cookies
+    return render_template("info.html", username=username, cookies=cookies)
 
-    if 'username' in session:
-        username = session['username']
+@app.route('/setCookie', methods=["POST"])
+def setCookie():
+    key = request.form.get("key")
+    value = request.form.get("value")
+    days = request.form.get("days")
+    #message = "Cookie successfully set"
+    response = make_response(redirect(url_for('info')))
+    response.set_cookie(key, value, max_age=60*60*24*int(days))
+    return response
+
+@app.route("/deleteCookieByKey", methods=["POST"])
+def deleteCookieByKey():
+    key = request.form.get("key")
+    response = make_response(redirect(url_for('info')))
+    response.delete_cookie(key) 
+    return response
 
 
-        if request.method == 'POST':
-            action = request.form.get('action')
-            key = request.form.get('key')
-            value = request.form.get('value')
-            expiration = request.form.get('expiration')
-            
-
-            if action == 'add':
-                if key and value and expiration:
-                    expiration_time = datetime.datetime.now() + datetime.timedelta(seconds=int(expiration))
-                    response = make_response(render_template('info.html', username=username, message="Cookie added successfully"))
-                    response.set_cookie(key, value, expires=expiration_time)
-                    return response
-                else:
-                    message = "Invalid input for adding a cookie."
-            elif action == 'delete':
-                if key:
-                    response = make_response(render_template('info.html', username=username, message="Cookie deleted successfully"))
-                    response.delete_cookie(key)
-                    return response
-                else:
-                    message = "Invalid input for deleting a cookie."
-            else:
-                message = "Invalid action."
-
-        password_change_message = request.args.get('message')
-        if password_change_message:
-            message = password_change_message
-
-        cookies = request.cookies
-        cookie_data = []
-        for key, value in cookies.items():
-            if key.endswith('_expires'):
-                continue
-
-            expires_timestamp = request.cookies.get(key + '_expires')
-            created_timestamp = request.cookies.get(key + '_created')
-
-            if expires_timestamp is not None and created_timestamp is not None:
-                expires = datetime.datetime.fromtimestamp(float(expires_timestamp))
-                created = datetime.datetime.fromtimestamp(float(created_timestamp))
-                cookie_data.append({'key': key, 'value': value, 'expiration': expires, 'created': created})
-
-        return render_template('info.html', username=username, cookies=cookie_data, message=message)
-    else:
-        return redirect(url_for('home'))
-
+@app.route("/deleteCookieAll", methods=["POST"])
+def deleteCookieAll():
+    cookiesKeys = request.cookies
+    response = make_response(redirect(url_for('info')))
+    
+    for key, value in cookiesKeys.items():
+        if key != "session":
+            response.delete_cookie(key)
+    return response
 
 @app.route('/logout')
 def logout():
@@ -93,9 +76,9 @@ def change_password():
             username = session['username']
             users[username] = new_password
 
-            return redirect(url_for('info', message="Password changed successfully"))
+            return redirect(url_for('home', message="Пароль успішно змінено"))
         else:
-            return redirect(url_for('info', message="Invalid new password"))
+            return redirect(url_for('info', message="Недійсний новий пароль"))
 
     return redirect(url_for('home'))
 
