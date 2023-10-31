@@ -93,10 +93,13 @@ form {
     height: 35px;
     width: 100%;
     font-size: 25px;
+    margin-top: 20px;
 }
 
 .input_username, .input_password {
+    display: flex;
     font-size: 25px;
+    margin-bottom: 10px;
 }
 
 a {

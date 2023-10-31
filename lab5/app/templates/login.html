@@ -4,15 +4,17 @@
 
 {% block content %}
 
-<form action="/login" method="post" class="login-form">
-    <h1>Логін</h1>
-    <label for="username">Username:</label>
-    <input type="text" name="username" class="input_username" required><br><br>
-
-    <label for="password">Password:</label>
-    <input type="password" name="password" class="input_password" required><br><br>
-
-    <input type="submit" value="Login" class="btn_submit">
+<form method="POST" class="login-form">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.username.label(class="input_username") }}
+        {{ form.username(class="input_username") }}
+    </div>
+    <div>
+        {{ form.password.label(class="input_password") }}
+        {{ form.password(class="input_password") }}
+    </div>
+    {{ form.submit(class="btn_submit") }}
 </form>
 
 {% endblock %}

@@ -2,6 +2,7 @@ from flask import Flask, make_response, render_template, request, redirect, url_
 import json
 import os
 from datetime import datetime
+from forms import LoginForm
 
 app = Flask(__name__)
 app.secret_key = b"secret"
@@ -46,20 +47,23 @@ def resume():
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     return render_template('resume.html', os_info=os_info, user_agent=user_agent, current_time=current_time)
 
-@app.route('/login')
-def login_page():
-    return render_template('login.html')
+# @app.route('/login')
+# def login_page():
+#     return render_template('login.html')
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
+    form = LoginForm()
 
-    if username in users and users[username] == password:
-        session['username'] = username
-        return redirect(url_for('info'))
-    
-    return render_template('login.html')
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        if username in users and users[username] == password:
+            session['username'] = username
+            return redirect(url_for('info'))
+
+    return render_template('login.html', form=form)
 
 @app.route("/info", methods=['GET', 'POST'])
 def info():
