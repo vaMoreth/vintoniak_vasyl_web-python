@@ -128,3 +128,7 @@ hr {
     display: block;
     margin: auto;
 }
+
+.list-group-item-danger {
+    color: red;
+}

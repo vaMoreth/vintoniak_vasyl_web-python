@@ -1,11 +1,12 @@
-from flask import Flask, make_response, render_template, request, redirect, url_for, session
+from flask import Flask, make_response, render_template, request, redirect, url_for, session, flash
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from forms import LoginForm
 
 app = Flask(__name__)
 app.secret_key = b"secret"
+app.permanent_session_lifetime = timedelta(days=30)
 
 my_skills = ["Python", "HTML", "CSS", "JavaScript", "SQL", "Git", "C#"]
 
@@ -47,10 +48,6 @@ def resume():
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     return render_template('resume.html', os_info=os_info, user_agent=user_agent, current_time=current_time)
 
-# @app.route('/login')
-# def login_page():
-#     return render_template('login.html')
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -61,8 +58,17 @@ def login():
 
         if username in users and users[username] == password:
             session['username'] = username
+
+            if form.remember.data:
+                session.permanent = True
+                app.permanent_session_lifetime = timedelta(days=30)
+
+            flash('Ви успішно увійшли', 'success')
             return redirect(url_for('info'))
 
+        flash('Невірне ім\'я користувача або пароль', 'danger')
+
+    flash('Необхідно увійти для доступу', 'warning')
     return render_template('login.html', form=form)
 
 @app.route("/info", methods=['GET', 'POST'])

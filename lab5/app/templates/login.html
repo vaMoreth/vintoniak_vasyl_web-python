@@ -6,7 +6,7 @@
 
 <form method="POST" class="login-form" novalidate>
     <h1 class="login_text">Login</h1>
-    {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
         {{ render_field(form.username, class="input_username") }}
         {{ render_field(form.password, class="input_password") }}
         {{ render_field(form.remember, class="remember_btn") }}
