@@ -4,17 +4,31 @@
 
 {% block content %}
 
-<form method="POST" class="login-form">
+<form method="POST" class="login-form" novalidate>
+    <h1 class="login_text">Login</h1>
     {{ form.hidden_tag() }}
-    <div>
-        {{ form.username.label(class="input_username") }}
-        {{ form.username(class="input_username") }}
-    </div>
-    <div>
-        {{ form.password.label(class="input_password") }}
-        {{ form.password(class="input_password") }}
-    </div>
+        {{ render_field(form.username, class="input_username") }}
+        {{ render_field(form.password, class="input_password") }}
+        {{ render_field(form.remember, class="remember_btn") }}
     {{ form.submit(class="btn_submit") }}
 </form>
 
 {% endblock %}
+
+{% macro render_field(field, class='') %}
+    <div>
+        <dt>{{ field.label }}</dt>
+        {% if field.errors %}
+            <dd>
+                {{ field(class=class) }}
+                <ul>
+                    {% for error in field.errors %}
+                        <li class="list-group-item list-group-item-danger">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </dd>
+        {% else %}
+            <dd>{{ field(class=class) }}</dd>
+        {% endif %}
+    </div>
+{% endmacro %}

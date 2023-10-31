@@ -96,10 +96,12 @@ form {
     margin-top: 20px;
 }
 
-.input_username, .input_password {
+.input_username, .input_password, .remember_btn {
     display: flex;
     font-size: 25px;
     margin-bottom: 10px;
+    position: relative;
+    left: -40px;
 }
 
 a {
