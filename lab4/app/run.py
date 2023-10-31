@@ -1,15 +1,53 @@
 from flask import Flask, make_response, render_template, request, redirect, url_for, session
 import json
-import datetime
+import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = b"secret"
+
+my_skills = ["Python", "HTML", "CSS", "JavaScript", "SQL", "Git", "C#"]
 
 with open('users.json', 'r') as f:
     users = json.load(f)
 
 @app.route('/')
 def home():
+    os_info = os.name
+    user_agent = request.user_agent.string
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    return render_template('portfolio.html', os_info=os_info, user_agent=user_agent, current_time=current_time)
+
+@app.route('/portfolio')
+def portfolio():
+    os_info = os.name
+    user_agent = request.user_agent.string
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    return render_template('portfolio.html', os_info=os_info, user_agent=user_agent, current_time=current_time)
+
+@app.route('/skills')
+@app.route('/skills/<int:id>')
+def skills(id=None):
+    os_info = os.name
+    user_agent = request.user_agent.string
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    if id is None:
+        total_skills = len(my_skills)
+        return render_template('skills.html', skills=my_skills, total_skills=total_skills, os_info=os_info, user_agent=user_agent, current_time=current_time)
+    elif id < len(my_skills):
+        return render_template('skill.html', skills=[my_skills[id]], id=id, os_info=os_info, user_agent=user_agent, current_time=current_time)
+    else:
+        return "Немає навички з таким id"
+    
+@app.route('/resume')
+def resume():
+    os_info = os.name
+    user_agent = request.user_agent.string
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    return render_template('resume.html', os_info=os_info, user_agent=user_agent, current_time=current_time)
+
+@app.route('/login')
+def login_page():
     return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
@@ -20,14 +58,12 @@ def login():
     if username in users and users[username] == password:
         session['username'] = username
         return redirect(url_for('info'))
-    else:
-        return "Помилка логіну. Перевірте своє ім'я користувача та пароль."
     
+    return render_template('login.html')
+
 @app.route("/info", methods=['GET', 'POST'])
 def info():
-    
     if not session.get("username"):
-        ("Please check the box 'remember me'", "danger")
         return redirect(url_for('login'))
     
     username = session.get("username")
@@ -39,7 +75,6 @@ def setCookie():
     key = request.form.get("key")
     value = request.form.get("value")
     days = request.form.get("days")
-    #message = "Cookie successfully set"
     response = make_response(redirect(url_for('info')))
     response.set_cookie(key, value, max_age=60*60*24*int(days))
     return response
