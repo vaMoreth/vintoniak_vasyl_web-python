@@ -63,3 +63,27 @@ nav a {
 nav a:hover {
     text-decoration: underline;
 }
+
+a:visited {
+    color: white;
+}
+
+a:hover {
+    color: red;
+}
+
+.skills_ul, .h2_skills {
+    margin: auto;
+    list-style: none;
+}
+
+.skills_ul li {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 24px;
+}
+
+.table_resume td, .table_resume th {
+    border: black dotted 3px;
+    margin: auto;
+}

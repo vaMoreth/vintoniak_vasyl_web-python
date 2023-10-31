@@ -6,6 +6,7 @@ body {
     flex-direction: column;
     color: #ffff;
 }
+
 .content {
     flex-grow: 1;
     padding: 25px 60px;
@@ -21,9 +22,6 @@ footer {
     gap: 30px;
     padding: 10px 30px;
 }
-h2 {
-    margin: 10px 0;
-}
 
 header {
     background-color: #1B1C1E;
@@ -33,12 +31,12 @@ header {
     justify-content: space-evenly;
 }
 
-nav {
+.main-navbar {
     background-color: #1B1C1E;
     padding: 10px;
 }
 
-nav ul {
+.main-navbar ul {
     display: flex;
     gap: 20px;
     justify-content: space-evenly;
@@ -49,17 +47,79 @@ nav ul {
     height: 100%;
 }
 
-nav ul li {
+.main-navbar ul li {
     display: inline;
     margin-right: 20px;
 }
 
-nav a {
+.main-navbar a {
     text-decoration: none;
     color: white;
     font-weight: bold;
 
 }
-nav a:hover {
+.main-navbar a:hover {
     text-decoration: underline;
+}
+
+.skills_ul, .h2_skills {
+    margin: auto;
+    list-style: none;
+}
+
+.skills_ul li {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 24px;
+}
+
+.table_resume td, .table_resume th {
+    border: black dotted 3px;
+    margin: auto;
+}
+
+.main_text {
+    margin: auto;
+    font-size: 25px;
+    text-align: center;
+}
+
+form {
+    margin: auto;
+    font-size: 25px;
+}
+
+.btn_submit {
+    height: 35px;
+    width: 100%;
+    font-size: 25px;
+}
+
+.input_username, .input_password {
+    font-size: 25px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-size: 25px;
+    margin: auto;
+}
+
+a:visited {
+    color: white;
+}
+
+a:hover {
+    color: red;
+}
+
+hr {
+    color: white;
+    width: 98%;
+}
+
+.info-main-div {
+    display: block;
+    margin: auto;
 }

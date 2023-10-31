@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Логін</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Логін{% endblock %}
+
+{% block content %}
+
+<form action="/login" method="post" class="login-form">
     <h1>Логін</h1>
-    <form action="/login" method="post">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required><br><br>
-        <input type="submit" value="Login">
-    </form>
-</body>
-</html>
+    <label for="username">Username:</label>
+    <input type="text" name="username" class="input_username" required><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" class="input_password" required><br><br>
+
+    <input type="submit" value="Login" class="btn_submit">
+</form>
+
+{% endblock %}
