@@ -1,7 +1,7 @@
 body {
     background-color: #2b2b2b;
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     color: #ffff;
@@ -21,6 +21,9 @@ footer {
     display: flex;
     gap: 30px;
     padding: 10px 30px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 header {
@@ -94,11 +97,11 @@ form {
     width: 100%;
     font-size: 25px;
     margin-top: 20px;
+    margin: auto;
 }
 
 .input_username, .input_password, .remember_btn {
-    display: flex;
-    font-size: 25px;
+    display: flex;    font-size: 25px;
     margin-bottom: 10px;
     position: relative;
     left: -40px;
@@ -131,4 +134,8 @@ hr {
 
 .list-group-item-danger {
     color: red;
+}
+
+.login_text {
+    margin: auto;
 }

@@ -14,13 +14,7 @@
             <p>.Net Developer</p>
         </div>
          <nav class="main-navbar">
-            <ul>
-                <li><a href="{{ url_for('portfolio') }}">Головна</a></li>
-                <li><a href="{{ url_for('portfolio') }}">Portfolio</a></li>
-                <li><a href="{{ url_for('skills') }}">Skills</a></li>
-                <li><a href="{{ url_for('resume') }}">Resume</a></li>
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-            </ul>
+            {% include 'navigation.html' %}
         </nav>
     </header>
 
@@ -41,11 +35,5 @@
         {% endblock %}
     </div>
 
-    <footer>
-        &copy; 2023 My Portfolio
-        <p>OS: {{ os_info }}</p>
-        <p>User Agent: {{ user_agent }}</p>
-        <p>Current Time: {{ current_time }}</p>
-    </footer>
 </body>
 </html>
