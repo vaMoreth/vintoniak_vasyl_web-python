@@ -1,0 +1,141 @@
+body {
+    background-color: #2b2b2b;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: #ffff;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 25px 60px;
+}
+.container {
+    display: flex;
+    gap: 30px;
+}
+
+footer {
+    background: #2f2f2f;
+    display: flex;
+    gap: 30px;
+    padding: 10px 30px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+header {
+    background-color: #1B1C1E;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.main-navbar {
+    background-color: #1B1C1E;
+    padding: 10px;
+}
+
+.main-navbar ul {
+    display: flex;
+    gap: 20px;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.main-navbar ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.main-navbar a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+
+}
+.main-navbar a:hover {
+    text-decoration: underline;
+}
+
+.skills_ul, .h2_skills {
+    margin: auto;
+    list-style: none;
+}
+
+.skills_ul li {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 24px;
+}
+
+.table_resume td, .table_resume th {
+    border: black dotted 3px;
+    margin: auto;
+}
+
+.main_text {
+    margin: auto;
+    font-size: 25px;
+    text-align: center;
+}
+
+form {
+    margin: auto;
+    font-size: 25px;
+}
+
+.btn_submit {
+    height: 35px;
+    width: 100%;
+    font-size: 25px;
+    margin-top: 20px;
+    margin: auto;
+}
+
+.input_username, .input_password, .remember_btn {
+    display: flex;    font-size: 25px;
+    margin-bottom: 10px;
+    position: relative;
+    left: -40px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-size: 25px;
+    margin: auto;
+}
+
+a:visited {
+    color: white;
+}
+
+a:hover {
+    color: red;
+}
+
+hr {
+    color: white;
+    width: 98%;
+}
+
+.info-main-div {
+    display: block;
+    margin: auto;
+}
+
+.list-group-item-danger {
+    color: red;
+}
+
+.login_text {
+    margin: auto;
+}
