@@ -1,19 +1,19 @@
 from flask import Flask, make_response, render_template, request, redirect, url_for, session, flash
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
 from flask_migrate import Migrate
 import json
 import os
 from datetime import datetime, timedelta
-from forms import LoginForm, ChangePasswordForm
+from forms import LoginForm, ChangePasswordForm, TodoForm, FeedbackForm
 
 app = Flask(__name__)
 app.secret_key = b"secret"
 app.permanent_session_lifetime = timedelta(days=30)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///feedbacks.db'
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -28,11 +28,27 @@ class Todo(db.Model):
     status = db.Column(db.Boolean, default=False)
     description = db.Column(db.String(256))
 
-class TodoForm(FlaskForm):
-    todo_item = StringField('Todo Item', validators=[DataRequired()])
-    status = BooleanField('Status')
-    description = StringField('Description')
-    submit = SubmitField('Submit')
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), nullable=False)
+    email = db.Column(db.String(128), nullable=False)
+    message = db.Column(db.String(256), nullable=False)
+
+def get_navigation_items():
+    navigation_items = [
+        {'url': '/', 'label': 'Головна'},
+        {'url': '/portfolio', 'label': 'Portfolio'},
+        {'url': '/skills', 'label': 'Skills'},
+        {'url': '/resume', 'label': 'Resume'},
+        {'url': '/login', 'label': 'Login'},
+        {'url': '/todo', 'label': 'Todo'},
+        {'url': '/feedback', 'label': 'Feedback'},
+    ]
+    return navigation_items
+
+@app.context_processor
+def inject_navigation():
+    return dict(navigation_items=get_navigation_items())
 
 @app.route('/')
 def home():
@@ -150,21 +166,6 @@ def change_password():
 
     return render_template('change_password.html', form=form)
 
-def get_navigation_items():
-    navigation_items = [
-        {'url': '/', 'label': 'Головна'},
-        {'url': '/portfolio', 'label': 'Portfolio'},
-        {'url': '/skills', 'label': 'Skills'},
-        {'url': '/resume', 'label': 'Resume'},
-        {'url': '/login', 'label': 'Login'},
-        {'url': '/todo', 'label': 'Todo'},
-    ]
-    return navigation_items
-
-@app.context_processor
-def inject_navigation():
-    return dict(navigation_items=get_navigation_items())
-
 @app.route('/todo', methods=['GET', 'POST'])
 def todo():
     todos = Todo.query.all()
@@ -201,6 +202,26 @@ def delete_todo(id):
     db.session.commit()
     flash('Todo видалено', 'success')
     return redirect(url_for('todo'))
+
+@app.route('/feedback', methods=['GET', 'POST'])
+def feedback():
+    form = FeedbackForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        message = form.message.data
+
+        feedback_entry = Feedback(name=name, email=email, message=message)
+        db.session.add(feedback_entry)
+        db.session.commit()
+
+        flash('Ваш відгук був збережений', 'success')
+        return redirect(url_for('feedback'))
+
+    feedbacks = Feedback.query.all()
+
+    return render_template('feedback.html', form=form, feedbacks=feedbacks)
 
 if __name__ == '__main__':
     app.run(debug=True)

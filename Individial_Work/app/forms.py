@@ -13,3 +13,15 @@ class ChangePasswordForm(FlaskForm):
     new_password = PasswordField('New Password', validators=[InputRequired(), Length(min=4, max=10)])
     confirm_new_password = PasswordField('Confirm the new password', validators=[InputRequired(), Length(min=4, max=10)])
     submit = SubmitField('Change password')
+
+class TodoForm(FlaskForm):
+    todo_item = StringField('Todo Item', validators=[DataRequired()])
+    status = BooleanField('Status')
+    description = StringField('Description')
+    submit = SubmitField('Submit')
+
+class FeedbackForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    message = StringField('Message', validators=[DataRequired()])
+    submit = SubmitField('Submit')
