@@ -1,4 +1,10 @@
 from flask import Flask, make_response, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import StringField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
+from flask_migrate import Migrate
 import json
 import os
 from datetime import datetime, timedelta
@@ -7,11 +13,26 @@ from forms import LoginForm, ChangePasswordForm
 app = Flask(__name__)
 app.secret_key = b"secret"
 app.permanent_session_lifetime = timedelta(days=30)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 my_skills = ["Python", "HTML", "CSS", "JavaScript", "SQL", "Git", "C#"]
 
 with open('users.json', 'r') as f:
     users = json.load(f)
+
+class Todo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    todo_item = db.Column(db.String(128), nullable=False)
+    status = db.Column(db.Boolean, default=False)
+    description = db.Column(db.String(256))
+
+class TodoForm(FlaskForm):
+    todo_item = StringField('Todo Item', validators=[DataRequired()])
+    status = BooleanField('Status')
+    description = StringField('Description')
+    submit = SubmitField('Submit')
 
 @app.route('/')
 def home():
@@ -136,12 +157,50 @@ def get_navigation_items():
         {'url': '/skills', 'label': 'Skills'},
         {'url': '/resume', 'label': 'Resume'},
         {'url': '/login', 'label': 'Login'},
+        {'url': '/todo', 'label': 'Todo'},
     ]
     return navigation_items
 
 @app.context_processor
 def inject_navigation():
     return dict(navigation_items=get_navigation_items())
+
+@app.route('/todo', methods=['GET', 'POST'])
+def todo():
+    todos = Todo.query.all()
+    form = TodoForm()
+
+    if form.validate_on_submit():
+        new_todo = Todo(todo_item=form.todo_item.data, status=form.status.data, description=form.description.data)
+        db.session.add(new_todo)
+        db.session.commit()
+        flash('Todo додано', 'success')
+        return redirect(url_for('todo'))
+
+    return render_template('todo.html', todos=todos, form=form)
+
+@app.route('/todo/edit/<int:id>', methods=['GET', 'POST'])
+def edit_todo(id):
+    todo = Todo.query.get_or_404(id)
+    form = TodoForm(obj=todo)
+
+    if form.validate_on_submit():
+        todo.todo_item = form.todo_item.data
+        todo.status = form.status.data
+        todo.description = form.description.data
+        db.session.commit()
+        flash('Todo оновлено', 'success')
+        return redirect(url_for('todo'))
+
+    return render_template('edit_todo.html', form=form, todo=todo)
+
+@app.route('/todo/delete/<int:id>', methods=['POST'])
+def delete_todo(id):
+    todo = Todo.query.get_or_404(id)
+    db.session.delete(todo)
+    db.session.commit()
+    flash('Todo видалено', 'success')
+    return redirect(url_for('todo'))
 
 if __name__ == '__main__':
     app.run(debug=True)
