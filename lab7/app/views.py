@@ -18,22 +18,6 @@ with open(dataJsonPath, 'r') as f:
 
 my_skills = ["Python", "HTML", "CSS", "JavaScript", "SQL", "Git", "C#"]
 
-# def get_navigation_items():
-#     navigation_items = [
-#         {'url': '/', 'label': 'Головна'},
-#         {'url': '/portfolio', 'label': 'Portfolio'},
-#         {'url': '/skills', 'label': 'Skills'},
-#         {'url': '/resume', 'label': 'Resume'},
-#         {'url': '/login', 'label': 'Login'},
-#         {'url': '/todo', 'label': 'Todo'},
-#         {'url': '/feedback', 'label': 'Feedback'},
-#     ]
-#     return navigation_items
-
-# @app.context_processor
-# def inject_navigation():
-#     return dict(navigation_items=get_navigation_items())
-
 @app.route('/')
 def home():
     os_info = os.name
@@ -115,7 +99,6 @@ def deleteCookieByKey():
     response.delete_cookie(key) 
     flash('Cookie був видалений', 'success')
     return response
-
 
 @app.route("/deleteCookieAll", methods=["POST"])
 def deleteCookieAll():
