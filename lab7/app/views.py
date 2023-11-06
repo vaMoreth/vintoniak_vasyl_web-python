@@ -1,54 +1,38 @@
-from flask import Flask, make_response, render_template, request, redirect, url_for, session, flash
-from flask import Flask, render_template, request, redirect, url_for, flash
+from collections import UserString
+from macpath import dirname, join, realpath
+from flask import request, render_template, redirect, url_for, make_response, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from datetime import datetime, timedelta
+from .forms import LoginForm, ChangePasswordForm, TodoForm, FeedbackForm
+from .models import Todo, Feedback
+from . import db
 import json
 import os
-from datetime import datetime, timedelta
-from forms import LoginForm, ChangePasswordForm, TodoForm, FeedbackForm
+from app import app
 
-app = Flask(__name__)
-app.secret_key = b"secret"
-app.permanent_session_lifetime = timedelta(days=30)
+dataJsonPath = join(dirname(realpath(__file__)), 'app/users.json')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///feedbacks.db'
-
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+with open(dataJsonPath, 'r') as f:
+    users = json.load(f)
 
 my_skills = ["Python", "HTML", "CSS", "JavaScript", "SQL", "Git", "C#"]
 
-with open('users.json', 'r') as f:
-    users = json.load(f)
+# def get_navigation_items():
+#     navigation_items = [
+#         {'url': '/', 'label': 'Головна'},
+#         {'url': '/portfolio', 'label': 'Portfolio'},
+#         {'url': '/skills', 'label': 'Skills'},
+#         {'url': '/resume', 'label': 'Resume'},
+#         {'url': '/login', 'label': 'Login'},
+#         {'url': '/todo', 'label': 'Todo'},
+#         {'url': '/feedback', 'label': 'Feedback'},
+#     ]
+#     return navigation_items
 
-class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    todo_item = db.Column(db.String(128), nullable=False)
-    status = db.Column(db.Boolean, default=False)
-    description = db.Column(db.String(256))
-
-class Feedback(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128), nullable=False)
-    email = db.Column(db.String(128), nullable=False)
-    message = db.Column(db.String(256), nullable=False)
-
-def get_navigation_items():
-    navigation_items = [
-        {'url': '/', 'label': 'Головна'},
-        {'url': '/portfolio', 'label': 'Portfolio'},
-        {'url': '/skills', 'label': 'Skills'},
-        {'url': '/resume', 'label': 'Resume'},
-        {'url': '/login', 'label': 'Login'},
-        {'url': '/todo', 'label': 'Todo'},
-        {'url': '/feedback', 'label': 'Feedback'},
-    ]
-    return navigation_items
-
-@app.context_processor
-def inject_navigation():
-    return dict(navigation_items=get_navigation_items())
+# @app.context_processor
+# def inject_navigation():
+#     return dict(navigation_items=get_navigation_items())
 
 @app.route('/')
 def home():
@@ -159,7 +143,7 @@ def change_password():
 
             if new_password:
                 username = session['username']
-                users[username] = new_password
+                UserString[username] = new_password
 
                 flash("Пароль успішно змінено", "success")
                 return redirect(url_for('login'))
@@ -222,6 +206,3 @@ def feedback():
     feedbacks = Feedback.query.all()
 
     return render_template('feedback.html', form=form, feedbacks=feedbacks)
-
-if __name__ == '__main__':
-    app.run(debug=True)
