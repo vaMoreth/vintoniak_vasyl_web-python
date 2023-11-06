@@ -1,15 +1,12 @@
 from collections import UserString
 from macpath import dirname, join, realpath
 from flask import request, render_template, redirect, url_for, make_response, session, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from datetime import datetime, timedelta
-from .forms import LoginForm, ChangePasswordForm, TodoForm, FeedbackForm
-from .models import Todo, Feedback
-from . import db
+from .forms import LoginForm, ChangePasswordForm, TodoForm, FeedbackForm, RegistrationForm
+from .models import Todo, Feedback, User
+from app import app, db
 import json
 import os
-from app import app
 
 dataJsonPath = join(dirname(realpath(__file__)), 'app/users.json')
 
@@ -47,31 +44,28 @@ def skills(id=None):
 def resume():
     return render_template('resume.html')
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created! You are now able to log in.', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-
     if form.validate_on_submit():
-        username = form.username.data
-        password = form.password.data
-
-        if username in users and users[username] == password:
-            session['username'] = username
-
-            if not form.remember.data:
-                return redirect(url_for('home'))
-
-            if form.remember.data:
-                session.permanent = True
-                app.permanent_session_lifetime = timedelta(days=30)
-
-            flash('Ви успішно увійшли', 'success')
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.password == form.password.data:
+            flash('Login successful!', 'success')
             return redirect(url_for('info'))
-
-        flash('Невірне ім\'я користувача або пароль', 'danger')
-
-    flash('Необхідно увійти для доступу', 'warning')
-    return render_template('login.html', form=form)
+        else:
+            flash('Login unsuccessful. Please check your username and password.', 'danger')
+    return render_template('login.html', title='Login', form=form)
 
 @app.route("/info", methods=['GET', 'POST'])
 def info():
