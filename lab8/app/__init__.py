@@ -2,6 +2,7 @@ from datetime import timedelta
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -9,6 +10,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.secret_key = b"secret"
 app.permanent_session_lifetime = timedelta(days=30)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'site.sqlite')
 

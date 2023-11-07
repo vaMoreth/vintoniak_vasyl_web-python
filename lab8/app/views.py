@@ -4,6 +4,7 @@ from flask import request, render_template, redirect, url_for, make_response, se
 from datetime import datetime, timedelta
 from .forms import LoginForm, ChangePasswordForm, TodoForm, FeedbackForm, RegistrationForm
 from .models import Todo, Feedback, User
+from flask_login import login_user, login_required, logout_user, current_user
 from app import app, db
 import json
 import os
@@ -61,17 +62,23 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.password == form.password.data:
-            
-            if form.remember.data:
-                session["username"] = user.username
-                flash("Login Succesful", "success")
-                return redirect(url_for('info'))
+            login_user(user, remember=form.remember.data)
+            flash('Login successful!', 'success')
+            return redirect(url_for('info'))
 
-            flash('Login successful to home page!', 'success')
-            return redirect(url_for('home'))
-        else:
-            flash('Login unsuccessful. Please check your username and password.', 'danger')
+        flash('Login unsuccessful. Please check your username and password.', 'danger')
     return render_template('login.html', title='Login', form=form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user() 
+    return redirect(url_for('home'))
+
+@app.route('/account')
+@login_required
+def account():
+    return render_template('account.html')
 
 @app.route("/info", methods=['GET', 'POST'])
 def info():
@@ -111,11 +118,6 @@ def deleteCookieAll():
             response.delete_cookie(key)
     flash('Cookie був видалений', 'success')
     return response
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    return redirect(url_for('login'))
 
 @app.route('/change_password', methods=['GET', 'POST'])
 def change_password():
