@@ -26,12 +26,16 @@ footer {
     width: 100%;
 }
 
-header {
+header{
     background-color: #1B1C1E;
     color: white;
     padding: 10px;
     display: flex;
     justify-content: space-evenly;
+}
+
+.header_list {
+    padding-right: 25px;
 }
 
 .main-navbar {

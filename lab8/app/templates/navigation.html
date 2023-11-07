@@ -8,10 +8,23 @@
     "Users": url_for('users'),
 } %}
 
-<ul class="navigation">
+<ul>
     {% for name, url in navigation_items.items() %}
-        <li>
-            <a href="{{ url }}">{{ name }}</a>
-        </li>    
+        {% if name == "Login" %}
+            {% if current_user.is_authenticated %}
+                <li>
+                    <span class="header_list"><a href="{{ url_for('account') }}">My Account</a></span>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ url_for('login') }}">Login</a>
+                </li>
+            {% endif %}
+        {% else %}
+            <li>
+                <a href="{{ url }}">{{ name }}</a>
+            </li>
+        {% endif %}
     {% endfor %}
 </ul>
