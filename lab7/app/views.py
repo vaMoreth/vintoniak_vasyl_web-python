@@ -190,3 +190,9 @@ def feedback():
     feedbacks = Feedback.query.all()
 
     return render_template('feedback.html', form=form, feedbacks=feedbacks)
+
+@app.route('/users')
+def users():
+    all_users = User.query.all()
+    total_users = len(all_users)
+    return render_template('users.html', users=all_users, total_users=total_users)

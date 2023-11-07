@@ -156,11 +156,10 @@ hr {
     margin: auto;
 }
 
-.todo_table, .feedback_table {
+.todo_table, .feedback_table, .users_table {
     margin: auto;
     font-size: 25px;
     text-indent: 25px;
-
 }
 
 .small_text {
