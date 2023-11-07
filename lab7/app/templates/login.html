@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Логін{% endblock %}
+
+{% block content %}
+    <form method="POST" class="login_form" novalidate>
+        <h1 class="login_text">Login</h1><br>
+        {{ form.csrf_token }}
+            {{ render_field(form.username, class="input_username") }}
+            {{ render_field(form.password, class="input_password") }}
+            {{ render_field(form.remember, class="remember_btn") }} <br><hr><br>
+        {{ form.submit(class="btn_submit") }}
+        <p class="small_text">Don't have an account? <a class="small_text" href="{{ url_for('register') }}">Register here</a></p>
+    </form>
+
+{% endblock %}
+
+{% macro render_field(field, class='') %}
+    <div>
+        <dt>{{ field.label }}</dt>
+        {% if field.errors %}
+            <dd>
+                {{ field(class=class) }}
+                <ul>
+                    {% for error in field.errors %}
+                        <li class="list-group-item list-group-item-danger">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </dd>
+        {% else %}
+            <dd>{{ field(class=class) }}</dd>
+        {% endif %}
+    </div>
+{% endmacro %}

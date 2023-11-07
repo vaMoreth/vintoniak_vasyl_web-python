@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<div class="users_table">
+    <h1>Зареєстровані користувачі</h1>
+
+    {% if total_users > 0 %}
+        <p>Загальна кількість користувачів на сайті: {{ total_users }}</p>
+
+        <ul>
+            {% for user in users %}
+                <li>{{ user.username }} ({{ user.email }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>На сайті немає зареєстрованих користувачів.</p>
+    {% endif %}
+</div>
+{% endblock %}

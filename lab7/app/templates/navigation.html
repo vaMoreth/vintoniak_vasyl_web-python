@@ -1,0 +1,17 @@
+{% set navigation_items = {
+    "Portfolio": url_for('portfolio'),
+    "Skills": url_for('skills'),
+    "Resume": url_for('resume'),
+    "Login": url_for('login'),
+    "Todo": url_for('todo'),
+    "Feedback": url_for('feedback'),
+    "Users": url_for('users'),
+} %}
+
+<ul class="navigation">
+    {% for name, url in navigation_items.items() %}
+        <li>
+            <a href="{{ url }}">{{ name }}</a>
+        </li>    
+    {% endfor %}
+</ul>
