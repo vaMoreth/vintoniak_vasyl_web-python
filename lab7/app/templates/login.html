@@ -3,15 +3,15 @@
 {% block title %}Логін{% endblock %}
 
 {% block content %}
-
-<form method="POST" class="login-form" novalidate>
-    <h1 class="login_text">Login</h1>
-    {{ form.csrf_token }}
-        {{ render_field(form.username, class="input_username") }}
-        {{ render_field(form.password, class="input_password") }}
-        {{ render_field(form.remember, class="remember_btn") }}
-    {{ form.submit(class="btn_submit") }}
-</form>
+    <form method="POST" class="login_form" novalidate>
+        <h1 class="login_text">Login</h1><br>
+        {{ form.csrf_token }}
+            {{ render_field(form.username, class="input_username") }}
+            {{ render_field(form.password, class="input_password") }}
+            {{ render_field(form.remember, class="remember_btn") }} <br><hr><br>
+        {{ form.submit(class="btn_submit") }}
+        <p class="small_text">Don't have an account? <a class="small_text" href="{{ url_for('register') }}">Register here</a></p>
+    </form>
 
 {% endblock %}
 
