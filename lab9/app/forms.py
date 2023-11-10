@@ -2,7 +2,7 @@ from flask import flash
 from flask_login import current_user
 from flask_wtf.file import FileField, FileAllowed
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError, TextAreaField
 from wtforms.validators import DataRequired, Length, InputRequired, EqualTo, Email
 from wtforms.validators import Regexp
 from werkzeug.utils import secure_filename
@@ -60,6 +60,7 @@ class UpdateAccountForm(FlaskForm):
     ])
     email = StringField('Email', validators=[DataRequired(), Email()])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+    about_me = TextAreaField('About Me', validators=[Length(max=140)])
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -73,9 +74,3 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 flash('This email is already registered. Please use a different email.', 'danger')
-        
-    # def validate_picture(self, picture):
-    #     if picture.data:
-    #         file_ext = picture.data.filename.split('.')[-1].lower()
-    #         if file_ext not in ['jpg', 'png']:
-    #             flash('Invalid file format. Please upload a JPG or PNG file.', 'danger')
