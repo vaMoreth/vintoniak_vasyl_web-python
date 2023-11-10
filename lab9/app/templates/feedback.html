@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Відгуки{% endblock %}
+
+{% block content %}
+    <div class="feedback_table">
+        <h1>Залиште свій відгук</h1> <hr>
+        <form method="POST">
+            {{ form.hidden_tag() }} <br>
+            {{ form.name.label }} {{ form.name(class="inputs") }} <br>
+            {{ form.email.label }} {{ form.email(class="inputs") }} <br>
+            {{ form.message.label }} {{ form.message(class="inputs") }} <br>
+            {{ form.submit(class="btn_submit") }} 
+        </form> <hr>
+
+        <h2>Всі відгуки</h2>
+        <ul>
+            {% for feedback in feedbacks %}
+                <li>
+                    <strong>{{ feedback.name }}</strong> ({{ feedback.email }}): {{ feedback.message }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
