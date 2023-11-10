@@ -170,6 +170,16 @@ hr {
     font-size: 15px;
 }
 
+.account_text {
+    font-size: 20px;
+    font-style: italic;
+}
+
 .namesH, .small_text {
     text-align: center;
+}
+
+.user_image {
+    width: 100px;
+    height: 100px;
 }

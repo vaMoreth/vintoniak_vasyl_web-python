@@ -3,8 +3,14 @@
 {% block title %}Мій профіль{% endblock %}
 
 {% block content %}
-<div class="center_block">
-    <h1 class="namesH">Мій профіль</h1>
-    <p>Ви увійшли як: {{ current_user.username }}</p>
-</div>
+{% if current_user.is_authenticated %}
+    <div class="center_block">
+        <h1 class="namesH">Мій профіль</h1>
+        <img class="user_image" src="{{ url_for('static', filename='../' + current_user.image_file) }}" alt="Profile Photo">
+        <p class="account_text">Name: {{ current_user.username }}</p>
+        <p class="account_text">Email: {{ current_user.email }}</p>
+    </div>
+{% else %}
+    <p>Доступ заборонено. Будь ласка, увійдіть в свій акаунт.</p>
+{% endif %}
 {% endblock %}
