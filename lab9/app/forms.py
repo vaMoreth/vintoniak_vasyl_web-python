@@ -1,7 +1,11 @@
+from flask import flash
+from flask_login import current_user
+from flask_wtf.file import FileField, FileAllowed
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError
 from wtforms.validators import DataRequired, Length, InputRequired, EqualTo, Email
 from wtforms.validators import Regexp
+from werkzeug.utils import secure_filename
 from .models import User
 
 class RegistrationForm(FlaskForm):
@@ -48,3 +52,30 @@ class FeedbackForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     message = StringField('Message', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class UpdateAccountForm(FlaskForm):
+    username = StringField('Username', validators=[
+        DataRequired(),
+        Length(min=2, max=20),
+    ])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+    submit = SubmitField('Update')
+
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = User.query.filter_by(username=username.data).first()
+            if user:
+                flash('This username is already taken. Please choose a different one.', 'danger')
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                flash('This email is already registered. Please use a different email.', 'danger')
+        
+    # def validate_picture(self, picture):
+    #     if picture.data:
+    #         file_ext = picture.data.filename.split('.')[-1].lower()
+    #         if file_ext not in ['jpg', 'png']:
+    #             flash('Invalid file format. Please upload a JPG or PNG file.', 'danger')

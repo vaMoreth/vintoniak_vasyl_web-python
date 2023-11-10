@@ -5,10 +5,23 @@
 {% block content %}
 {% if current_user.is_authenticated %}
     <div class="center_block">
-        <h1 class="namesH">Мій профіль</h1>
-        <img class="user_image" src="{{ url_for('static', filename='../' + current_user.image_file) }}" alt="Profile Photo">
+        <h1 class="namesH">Мій профіль</h1><hr><br>
+        <img src="{{ url_for('static', filename='images/' + current_user.image_file) }}" alt="Photo" class="user_image">
         <p class="account_text">Name: {{ current_user.username }}</p>
-        <p class="account_text">Email: {{ current_user.email }}</p>
+        <p class="account_text">Email: {{ current_user.email }}</p><br><hr><br>
+
+        <h2>Оновлення профілю</h2>
+        <form method="post" action="{{ url_for('account') }}" novalidate enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+                {{ form.username.label }}
+                {{ form.username(class="inputs") }} <br>
+                {{ form.email.label }}
+                {{ form.email(class="inputs") }} <br>
+                {{ form.picture.label }}
+                {{ form.picture(class="inputs") }} <br>
+                {{ form.submit(class="btn_submit") }}
+        </form>
+        <br><hr><br>
     </div>
 {% else %}
     <p>Доступ заборонено. Будь ласка, увійдіть в свій акаунт.</p>

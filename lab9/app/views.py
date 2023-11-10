@@ -2,10 +2,12 @@ from collections import UserString
 from macpath import dirname, join, realpath
 from flask import request, render_template, redirect, url_for, make_response, session, flash
 from datetime import datetime, timedelta
-from .forms import LoginForm, ChangePasswordForm, TodoForm, FeedbackForm, RegistrationForm
+from .forms import LoginForm, ChangePasswordForm, TodoForm, FeedbackForm, RegistrationForm, UpdateAccountForm
 from .models import Todo, Feedback, User
 from flask_login import login_user, login_required, logout_user, current_user
 from app import app, db
+from PIL import Image
+import secrets
 import json
 import os
 
@@ -74,11 +76,6 @@ def login():
 def logout():
     logout_user() 
     return redirect(url_for('home'))
-
-@app.route('/account')
-@login_required
-def account():
-    return render_template('account.html')
 
 @app.route("/info", methods=['GET', 'POST'])
 def info():
@@ -198,3 +195,34 @@ def users():
     all_users = User.query.all()
     total_users = len(all_users)
     return render_template('users.html', users=all_users, total_users=total_users)
+
+@app.route('/account', methods=['GET', 'POST'])
+@login_required
+def account():
+    form = UpdateAccountForm()
+
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+
+    return render_template('account.html', form=form)
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/images', picture_fn)
+    form_picture.save(picture_path)
+    return picture_fn
