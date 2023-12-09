@@ -67,7 +67,7 @@ def login():
         if user and user.password == form.password.data:
             login_user(user, remember=form.remember.data)
             flash('Login successful!', 'success')
-            return redirect(url_for('info'))
+            return redirect(url_for('home'))
 
         flash('Login unsuccessful. Please check your username and password.', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -79,6 +79,7 @@ def logout():
     return redirect(url_for('home'))
 
 @app.route("/info", methods=['GET', 'POST'])
+@login_required
 def info():
     if not session.get("username"):
         flash('Please check remember box', 'danger')
@@ -118,6 +119,7 @@ def deleteCookieAll():
     return response
 
 @app.route('/change_password', methods=['GET', 'POST'])
+@login_required
 def change_password():
     form = ChangePasswordForm()
 
@@ -192,6 +194,7 @@ def feedback():
     return render_template('feedback.html', form=form, feedbacks=feedbacks)
 
 @app.route('/users')
+@login_required
 def users():
     all_users = User.query.all()
     total_users = len(all_users)
