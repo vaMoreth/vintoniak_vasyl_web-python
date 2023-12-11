@@ -1,12 +1,11 @@
 {% set navigation_items = {
-    "Portfolio": url_for('portfolio'),
-    "Skills": url_for('skills'),
-    "Resume": url_for('resume'),
-    "Login": url_for('login'),
-    "Todo": url_for('todo'),
-    "Feedback": url_for('feedback'),
-    "Users": url_for('users'),
-    "Info": url_for('info'),
+    "Portfolio": url_for('portfolio.home'),
+    "Skills": url_for('portfolio.skills'),
+    "Resume": url_for('portfolio.resume'),
+    "Login": url_for('auth.login'),
+    "Todo": url_for('todo.todos'),
+    "Feedback": url_for('feedback.feedbacks'),
+    "Users": url_for('users.user'),
 } %}
 
 <ul>
@@ -14,12 +13,12 @@
         {% if name == "Login" %}
             {% if current_user.is_authenticated %}
                 <li>
-                    <span class="header_list"><a href="{{ url_for('account') }}">My Account</a></span>
-                    <a href="{{ url_for('logout') }}">Logout</a>
+                    <span class="header_list"><a href="{{ url_for('auth.account') }}">My Account</a></span>
+                    <a href="{{ url_for('auth.logout') }}">Logout</a>
                 </li>
             {% else %}
                 <li>
-                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('auth.login') }}">Login</a>
                 </li>
             {% endif %}
         {% else %}

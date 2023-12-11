@@ -16,7 +16,7 @@
         <br><hr><br>
 
         <h2>Оновлення профілю</h2>
-        <form method="post" action="{{ url_for('account') }}" novalidate enctype="multipart/form-data">
+        <form method="post" action="{{ url_for('auth.account') }}" novalidate enctype="multipart/form-data">
             {{ form.hidden_tag() }}
                 {{ form.picture.label }}
                 {{ form.picture(class="inputs") }} <br>

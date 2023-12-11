@@ -10,7 +10,7 @@
     </div>
     <ul class="skills_ul">
         {% for skill in skills %}
-            <li><a href="{{ url_for('skills', id=loop.index0) }}">{{ skill }}</a></li>
+            <li><a href="{{ url_for('portfolio.skills', id=loop.index0) }}">{{ skill }}</a></li>
         {% endfor %}
     </ul>
     <h2 class="h2_skills">

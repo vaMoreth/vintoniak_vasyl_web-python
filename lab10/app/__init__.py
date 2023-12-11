@@ -1,29 +1,35 @@
-from datetime import timedelta
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-import os
+from config import config
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 
-app = Flask(__name__)
-app.secret_key = b"secret"
-app.permanent_session_lifetime = timedelta(days=30)
-
+db = SQLAlchemy()
 login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
-login_manager.login_message_category = 'info'
 
-@login_manager.user_loader
-def load_user(user_id):
-    from app.models import User
-    return User.query.get(int(user_id))
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'site.sqlite')
-
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
-from app import views
+def create_app(config_name: str):
+    app = Flask(__name__)
+    app.config.from_object(config.get(config_name))
+    
+    db.init_app(app)
+    Migrate(app, db)
+    
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
+    login_manager.login_message_category = 'info'
+    
+    with app.app_context():
+        from .todo.views import todo
+        from .feedback.views import feedback
+        from .portfolio.views import portfolio
+        from .auth.views import auth
+        from .users.views import users
+        app.register_blueprint(todo)
+        app.register_blueprint(feedback)
+        app.register_blueprint(portfolio)
+        app.register_blueprint(auth)
+        app.register_blueprint(users)
+        
+        return app

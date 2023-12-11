@@ -10,7 +10,7 @@
             {{ render_field(form.password, class="input_password") }}
             {{ render_field(form.remember, class="remember_btn") }} <br><hr><br>
         {{ form.submit(class="btn_submit") }}
-        <p class="small_text">Don't have an account? <a class="small_text" href="{{ url_for('register') }}">Register here</a></p>
+        <p class="small_text">Don't have an account? <a class="small_text" href="{{ url_for('auth.register') }}">Register here</a></p>
     </form>
 
 {% endblock %}
