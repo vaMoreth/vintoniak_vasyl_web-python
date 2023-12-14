@@ -26,10 +26,12 @@ def create_app(config_name: str):
         from .portfolio.views import portfolio
         from .auth.views import auth
         from .users.views import users
+        from .api.todo import api_todo
         app.register_blueprint(todo)
         app.register_blueprint(feedback)
         app.register_blueprint(portfolio)
         app.register_blueprint(auth)
         app.register_blueprint(users)
+        app.register_blueprint(api_todo)
         
         return app
