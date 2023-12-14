@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Мій профіль{% endblock %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+    <div class="center_block">
+        <h1 class="namesH">Мій профіль</h1><hr><br>
+        <img src="{{ url_for('static', filename='images/' + current_user.image_file) }}" alt="Photo" class="user_image">
+        <p class="account_text">Name: {{ current_user.username }}</p>
+        <p class="account_text">Email: {{ current_user.email }}</p>
+        {% if current_user.about_me %}
+            <h3 class="namesH">About Me</h3>
+            <p class="account_text">{{ current_user.about_me }}</p>
+        {% endif %}
+        <br><hr><br>
+
+        <h2>Оновлення профілю</h2>
+        <form method="post" action="{{ url_for('auth.account') }}" novalidate enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+                {{ form.picture.label }}
+                {{ form.picture(class="inputs") }} <br>
+                {{ form.username.label }}
+                {{ form.username(class="inputs") }} <br>
+                {{ form.email.label }}
+                {{ form.email(class="inputs") }} <br>
+                {{ form.about_me.label }}
+                {{ form.about_me(class="inputs") }} <br>
+                {{ form.submit(class="btn_submit") }}
+        </form>
+        <br><hr><br>
+        {% if current_user.last_seen %}
+            <p class="account_text">Last Seen: {{ current_user.last_seen }}</p>
+        {% endif %}
+        <br><hr><br>
+        <h2>Change Password:</h2>
+        <form method="post" action="/change_password">
+            <input type="submit" value="Change">
+        </form><br><hr><br>
+    </div>
+{% else %}
+    <p>Доступ заборонено. Будь ласка, увійдіть в свій акаунт.</p>
+{% endif %}
+{% endblock %}
