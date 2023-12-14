@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Додати пост{% endblock %}
+
+{% block content %}
+<div class="post_add">
+    <h1 class="namesH">Додати пост</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.title.label }} {{ form.title(class="inputs") }} <br>
+        {{ form.text.label }} {{ form.text(class="inputs") }} <br>
+        {{ form.image.label }} {{ form.image(type="file", class="inputs") }} <br>
+        {{ form.type.label }} {{ form.type(class="inputs") }} <br>
+        {{ form.enabled.label }} {{ form.enabled(class="inputs") }} <br><br>
+        {{ form.submit(class="btn_submit") }}
+    </form>
+</div>
+{% endblock %}

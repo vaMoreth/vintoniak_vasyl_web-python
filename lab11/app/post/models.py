@@ -9,10 +9,10 @@ class PostType(Enum):
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(128))
-    text = db.Column(db.String(512))
-    image = db.Column(db.String(128), default='postdefault.jpg')
-    created = db.Column(db.DateTime, default=datetime.utcnow)
+    title = db.Column(db.String(255))
+    text = db.Column(db.String(1000))
+    image = db.Column(db.String(255), default='postdefault.jpg')
+    created = db.Column(db.TIMESTAMP, default=datetime.utcnow)
     type = db.Column(db.Enum(PostType), default=PostType.OTHER)
     enabled = db.Column(db.Boolean, default=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

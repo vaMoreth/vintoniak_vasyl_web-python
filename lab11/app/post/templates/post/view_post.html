@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Перегляд поста{% endblock %}
+
+{% block content %}
+<div class="posts-view">
+    <h1>{{ post.title }}</h1>
+    <img src="{{ url_for('static', filename='images/' + post.image) }}" alt="Post Image" class="post-image">
+    <p>Type: {{ post.type.value }}</p>
+    <p>Text: {{ post.text }}</p>
+    <p>Created: {{ post.created }}</p>
+    <br><br>
+    {% if current_user.is_authenticated and current_user.id == post.user_id %}
+        <a href="{{ url_for('post_bp.update_post', id=post.id) }} " class="link-btn">Edit</a> <hr>
+        <form method="POST" action="{{ url_for('post_bp.delete_post', id=post.id) }}">
+            <button type="submit" class="btn-link">Delete</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

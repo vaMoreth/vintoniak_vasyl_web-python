@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Оновлення поста{% endblock %}
+
+{% block content %}
+<div class="posts-view">
+    <h1 class="namesH">Оновлення поста</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.title.label }} {{ form.title(class="inputs") }} <br>
+        {{ form.text.label }} {{ form.text(class="inputs") }} <br>
+        {{ form.image.label }} {{ form.image(type="file", class="inputs") }} <br>
+        {{ form.type.label }} {{ form.type(class="inputs") }} <br>
+        {{ form.enabled.label }} {{ form.enabled(class="inputs") }} <br><br>
+        {{ form.submit(class="btn_submit") }}
+    </form>
+</div>
+{% endblock %}
