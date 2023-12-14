@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Редагування Todo{% endblock %}
+
+{% block content %}
+    <div class="todo_add">
+        <h1>Редагування Todo</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.todo_item.label }} {{ form.todo_item(class="inputs") }} <br>
+            {{ form.description.label }} {{ form.description(class="inputs") }} <br>
+            {{ form.status.label }} {{ form.status }} <br><br>
+            {{ form.submit(class="btn_submit") }}
+        </form>
+    </div>
+{% endblock %}
