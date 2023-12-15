@@ -5,7 +5,7 @@
 {% block content %}
 <div class="post_add">
     <h1 class="namesH">Додати пост</h1>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         {{ form.title.label }} {{ form.title(class="inputs") }} <br>
         {{ form.text.label }} {{ form.text(class="inputs") }} <br>
