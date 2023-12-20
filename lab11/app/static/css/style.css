@@ -69,3 +69,18 @@ footer {
     position: relative;
     left: 97%;
 }
+
+.page-link:active, .page-link:hover {
+    background: #2f2f2f!important;
+    border-color: #1B1C1E!important;
+}
+
+.page-link:hover{
+    color: white
+}
+
+.page-link {
+    background-color: #1B1C1E!important;
+    border-color: #2f2f2f!important;
+    color: white
+}

@@ -1,6 +1,6 @@
 import os
 import secrets
-from flask import flash, redirect, render_template, url_for
+from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from . import post_bp
 from .. import db, navigation
@@ -39,7 +39,8 @@ def create_post():
 
 @post_bp.route('/post', methods=['GET'])
 def posts():
-    posts = Post.query.all()
+    page = request.args.get('page', 1, type = int)
+    posts = Post.query.order_by(Post.created.desc()).paginate(page = page, per_page = 4)
     return render_template('posts.html', posts=posts)
 
 @post_bp.route('/post/<int:id>', methods=['GET'])
