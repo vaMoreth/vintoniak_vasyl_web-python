@@ -1,6 +1,6 @@
 import os
 import secrets
-from flask import flash, redirect, render_template, request, url_for
+from flask import abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from . import post_bp
 from .. import db, navigation
@@ -81,8 +81,12 @@ def save_picture(form_picture):
 @post_bp.route('/post/<int:id>/delete', methods=['POST'])
 @login_required
 def delete_post(id):
-    post = Post.query.get_or_404(id)
+    post = Post.query.filter_by(id=id).first_or_404()
+
+    if post.user_id != current_user:
+        abort(403)
+
     db.session.delete(post)
     db.session.commit()
-    flash('Post deleted', 'success')
+    flash("Post has been deleted", "success")
     return redirect(url_for('post_bp.posts'))

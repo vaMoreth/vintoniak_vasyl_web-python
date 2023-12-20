@@ -84,3 +84,7 @@ footer {
     border-color: #2f2f2f!important;
     color: white
 }
+
+.modal-content {
+    background-color: #1B1C1E!important;
+}

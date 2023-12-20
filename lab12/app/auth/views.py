@@ -41,6 +41,7 @@ def login():
 @login_required
 def logout():
     logout_user() 
+    flash('You are logged out', 'success')
     return redirect(url_for('portfolio.home'))
 
 @auth.route('/change_password', methods=['GET', 'POST'])
