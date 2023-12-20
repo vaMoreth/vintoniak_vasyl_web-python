@@ -1,31 +1,7 @@
-{% set navigation_items = {
-    "Portfolio": url_for('portfolio.home'),
-    "Skills": url_for('portfolio.skills'),
-    "Resume": url_for('portfolio.resume'),
-    "Login": url_for('auth.login'),
-    "Todo": url_for('todo.todos'),
-    "Feedback": url_for('feedback.feedbacks'),
-    "Users": url_for('users.user'),
-    "Posts": url_for('post_bp.posts'),
-} %}
-
-<ul>
-    {% for name, url in navigation_items.items() %}
-        {% if name == "Login" %}
-            {% if current_user.is_authenticated %}
-                <li>
-                    <span class="header_list"><a href="{{ url_for('auth.account') }}">My Account</a></span>
-                    <a href="{{ url_for('auth.logout') }}">Logout</a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="{{ url_for('auth.login') }}">Login</a>
-                </li>
-            {% endif %}
-        {% else %}
-            <li>
-                <a href="{{ url }}">{{ name }}</a>
-            </li>
-        {% endif %}
+<ul class="navbar-nav">
+    {% for route, label in navigation.items() %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for(route) }}">{{ label }}</a>
+        </li>
     {% endfor %}
 </ul>

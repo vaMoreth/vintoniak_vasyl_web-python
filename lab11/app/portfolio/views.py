@@ -1,8 +1,12 @@
 from flask import render_template, request
 from . import portfolio
+from .. import navigation
 from datetime import datetime
 import os
 
+@portfolio.context_processor
+def inject_navigation():
+    return dict(navigation=navigation())
 
 my_skills = ["Python", "HTML", "CSS", "JavaScript", "SQL", "Git", "C#"]
 

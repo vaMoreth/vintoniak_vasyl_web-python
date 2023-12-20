@@ -2,23 +2,33 @@
 
 {% block title %}Резюме{% endblock %}
 
-{% block content %}
-    <div class="container">
-        <div class="wrapper">
-          <h2>Моє Резюме</h2>
-          <p>Тут моє резюме зі всіма навичками</p>
+{% block content %} 
+      <div class="container text-center">
+        <div class="row">
+          <div class="col">
+          </div>
+          <div class="col-9">
+            <h1>Моє Резюме</h1>
+            <p><b>Тут моє резюме зі всіма навичками</b></p>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Компанія</th>
+                    <th scope="col">Досвід роботи</th>
+                    <th scope="col">Посада</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Немає</td>
+                    <td>Немає</td>
+                    <td>Немає</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+          <div class="col">
+          </div>
         </div>
     </div>
-      <table class="table_resume">
-        <tr>
-          <th>Компанія</th>
-          <th>Досвід роботи</th>
-          <th>Посада</th>
-        </tr>
-        <tr>
-            <td>Немає</td>
-            <td>Немає</td>
-            <td>Немає</td>
-        </tr>
-      </table>
 {% endblock %}

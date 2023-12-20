@@ -3,16 +3,28 @@
 {% block title %}Додати пост{% endblock %}
 
 {% block content %}
-<div class="post_add">
-    <h1 class="namesH">Додати пост</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        {{ form.title.label }} {{ form.title(class="inputs") }} <br>
-        {{ form.text.label }} {{ form.text(class="inputs") }} <br>
-        {{ form.image.label }} {{ form.image(type="file", class="inputs") }} <br>
-        {{ form.type.label }} {{ form.type(class="inputs") }} <br>
-        {{ form.enabled.label }} {{ form.enabled(class="inputs") }} <br><br>
-        {{ form.submit(class="btn_submit") }}
-    </form>
+<div class="container text-center">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-4">
+            <h1 class="namesH">Додати пост</h1><hr>
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                {{ form.title.label (class="form-label") }} 
+                {{ form.title(class="form-control") }} <br>
+                {{ form.text.label (class="form-label") }} 
+                {{ form.text(class="form-control") }} <br>
+                {{ form.image.label (class="form-label") }} 
+                {{ form.image(type="file", class="form-control") }} <br>
+                {{ form.type.label (class="form-label") }} 
+                {{ form.type(class="form-control") }} <br>
+                {{ form.enabled.label (class="form-label") }} 
+                {{ form.enabled(class="form-check-label") }} <br><hr>
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+    
 </div>
 {% endblock %}

@@ -3,9 +3,14 @@ import secrets
 from flask import flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from . import post_bp
-from .. import db
+from .. import db, navigation
 from .forms import PostForm
 from .models import Post
+
+
+@post_bp.context_processor
+def inject_navigation():
+    return dict(navigation=navigation())
 
 @post_bp.route('/post/create', methods=['GET', 'POST'])
 @login_required
@@ -68,7 +73,7 @@ def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
-    picture_path = os.path.join(post_bp.root_path, 'static/images', picture_fn)
+    picture_path = os.path.join(post_bp.root_path, 'static\\images', picture_fn)
     form_picture.save(picture_path)
     return picture_fn
 

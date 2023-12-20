@@ -3,14 +3,23 @@
 {% block title %}Редагування Todo{% endblock %}
 
 {% block content %}
-    <div class="todo_add">
-        <h1>Редагування Todo</h1>
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            {{ form.todo_item.label }} {{ form.todo_item(class="inputs") }} <br>
-            {{ form.description.label }} {{ form.description(class="inputs") }} <br>
-            {{ form.status.label }} {{ form.status }} <br><br>
-            {{ form.submit(class="btn_submit") }}
-        </form>
+<div class="container text-center">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-5">
+            <h1>Редагування Todo</h1><hr>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                {{ form.todo_item.label (class="form-label") }} 
+                {{ form.todo_item(class="form-control") }} <br>
+                {{ form.description.label (class="form-label") }} 
+                {{ form.description(class="form-control") }} <br>
+                {{ form.status.label (class="form-label") }} 
+                {{ form.status }} <br><br>
+                <button type="submit" class="btn btn-primary">Update Todo</button>
+            </form>
+        </div>
+        <div class="col"></div>
     </div>
+</div>
 {% endblock %}

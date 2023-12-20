@@ -3,23 +3,34 @@
 {% block title %}Відгуки{% endblock %}
 
 {% block content %}
-    <div class="feedback_table">
-        <h1>Залиште свій відгук</h1> <hr>
-        <form method="POST">
-            {{ form.hidden_tag() }} <br>
-            {{ form.name.label }} {{ form.name(class="inputs") }} <br>
-            {{ form.email.label }} {{ form.email(class="inputs") }} <br>
-            {{ form.message.label }} {{ form.message(class="inputs") }} <br>
-            {{ form.submit(class="btn_submit") }} 
-        </form> <hr>
 
-        <h2>Всі відгуки</h2>
-        <ul>
-            {% for feedback in feedbacks %}
-                <li>
-                    <strong>{{ feedback.name }}</strong> ({{ feedback.email }}): {{ feedback.message }}
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-4">
+                <h1>Залиште свій відгук</h1> <hr>
+                <form method="POST">
+                    {{ form.hidden_tag() }} <br>
+                    {{ form.name.label(class="form-label") }} 
+                    {{ form.name(class="form-control") }} <br>
+                    {{ form.email.label(class="form-label") }} 
+                    {{ form.email(class="form-control") }} <br>
+                    {{ form.message.label(class="form-label") }} 
+                    {{ form.message(class="form-control") }} <br>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form> <hr>
+
+                <h2>Всі відгуки</h2>
+                <ul>
+                    {% for feedback in feedbacks %}
+                        <li>
+                            <strong>{{ feedback.name }}</strong> ({{ feedback.email }}): {{ feedback.message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col"></div>
+        </div>
     </div>
+
 {% endblock %}

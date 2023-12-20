@@ -1,72 +1,33 @@
 body {
-    background-color: #2b2b2b;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    color: #ffff;
+    background-color: #2b2b2b!important;
+    color: white;
 }
 
-.content {
-    flex-grow: 1;
-    padding: 25px 60px;
+.bg-primary {
+    background-color: #1B1C1E!important;
 }
+
+.navbar-brand {
+    font-size: 20px!important;
+}
+
+.navbar-nav {
+    font-size: 25px;
+}
+
 .container {
-    display: flex;
-    gap: 30px;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
 }
 
 footer {
     background: #2f2f2f;
-    display: flex;
-    gap: 30px;
-    padding: 10px 30px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-header{
-    background-color: #1B1C1E;
     color: white;
-    padding: 10px;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.header_list {
-    padding-right: 25px;
-}
-
-.main-navbar {
-    background-color: #1B1C1E;
-    padding: 10px;
-}
-
-.main-navbar ul {
-    display: flex;
-    gap: 20px;
-    justify-content: space-evenly;
-    align-items: center;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
-.main-navbar ul li {
-    display: inline;
-    margin-right: 20px;
-}
-
-.main-navbar a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-
-}
-.main-navbar a:hover {
-    text-decoration: underline;
 }
 
 .skills_ul, .h2_skills {
@@ -80,125 +41,31 @@ header{
     font-size: 24px;
 }
 
-.table_resume td, .table_resume th {
-    border: black dotted 3px;
-    margin: auto;
+.user_image {
+    width: 150px;
+    height: 150px;
 }
 
-.main_text {
-    margin: auto;
-    font-size: 25px;
-    text-align: center;
+.btn-primary {
+    background-color: #1B1C1E!important;
+    border-color: #2f2f2f!important;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    font-size: 25px;
-}
-
-.btn_submit {
-    height: 35px;
-    width: 100%;
-    font-size: 25px;
-    margin-top: 20px;
-    margin: auto;
-}
-
-.btn-link {
-    background-color: #2b2b2b;
-    text-decoration: none;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.link-btn {
-    position: relative;
-    left: 43%;
-}
-
-.btn-link-2 {
-    position: relative;
-}
-
-.btn-link:hover {
-    color: red;
-}
-
-.input_username, .input_password, .remember_btn, .input_email {
-    display: flex;    
-    font-size: 25px;
-    margin-bottom: 10px;
-    position: relative;
-    left: -40px;
-}
-.inputs {
-    display: flex;    
-    font-size: 25px;
-}
-
-a {
-    color: white;
-    text-decoration: none;
-    font-size: 25px;
-    margin: auto;
-}
-
-a:visited {
-    color: white;
-}
-
-a:hover, .list-group-item-danger {
-    color: red;
-}
-
-hr {
-    color: white;
-    width: 98%;
-}
-
-.info-main-div {
-    display: block;
-    margin: auto;
-}
-
-.login_text, .todo_add, .center_block {
-    margin: auto;
-}
-
-.todo_table, .feedback_table, .users_table, .posts-view, .post_add {
-    margin: auto;
-    font-size: 20px;
-    text-indent: 25px;
+.btn-primary:hover {
+    background: #2f2f2f!important;
+    border-color: #1B1C1E!important;
 }
 
 .small_text {
     font-size: 15px;
 }
 
-.account_text {
-    font-size: 20px;
-    font-style: italic;
-}
-
-.namesH, .small_text {
-    text-align: center;
-}
-
-.user_image {
-    width: 125px;
-    height: 125px;
-}
-
-.post-image {
-    width: auto;
-    height: 125px;
+.posts-view {
+    overflow: hidden;
+    padding: 15px;
 }
 
 .add-posts {
     position: relative;
-    left: 30%;
+    left: 97%;
 }

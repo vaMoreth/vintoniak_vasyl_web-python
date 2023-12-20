@@ -2,7 +2,11 @@ from .models import Feedback
 from .forms import FeedbackForm
 from flask import flash, redirect, render_template, url_for
 from . import feedback
-from .. import db
+from .. import db, navigation
+
+@feedback.context_processor
+def inject_navigation():
+    return dict(navigation=navigation())
 
 @feedback.route('/feedback', methods=['GET', 'POST'])
 def feedbacks():
@@ -18,7 +22,7 @@ def feedbacks():
         db.session.commit()
 
         flash('Ваш відгук був збережений', 'success')
-        return redirect(url_for('feedback.feedback'))
+        return redirect(url_for('feedback.feedbacks'))
 
     feedbacks = Feedback.query.all()
 

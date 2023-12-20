@@ -8,6 +8,17 @@ from config import config
 db = SQLAlchemy()
 login_manager = LoginManager()
 
+def navigation():
+    return {
+        'portfolio.home': 'Home',
+        'portfolio.resume': 'Resume',
+        'portfolio.skills': 'Skills',
+        'todo.todos': 'Todo',
+        'feedback.feedbacks': 'FeedBacks',
+        'users.user': 'Users',
+        'post_bp.posts': 'Posts',
+    }
+
 
 def create_app(config_name: str):
     app = Flask(__name__)

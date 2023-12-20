@@ -2,7 +2,11 @@ from flask import flash, redirect, render_template, url_for
 from . import todo
 from .forms import TodoForm
 from .models import Todo
-from .. import db
+from .. import db, navigation
+
+@todo.context_processor
+def inject_navigation():
+    return dict(navigation=navigation())
 
 @todo.route('/todo', methods=['GET', 'POST'])
 def todos():

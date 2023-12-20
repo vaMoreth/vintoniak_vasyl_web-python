@@ -4,11 +4,14 @@ from flask_login import current_user, login_required, login_user, logout_user
 from .forms import RegistrationForm, LoginForm, ChangePasswordForm, UpdateAccountForm
 from collections import UserString
 from . import auth
-from .. import db
+from .. import db, navigation
 from .models import User
 import secrets
 import os
 
+@auth.context_processor
+def inject_navigation():
+    return dict(navigation=navigation())
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
