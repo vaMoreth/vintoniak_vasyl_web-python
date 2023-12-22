@@ -4,6 +4,7 @@ from flask import abort, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from . import post_bp
 from .. import db, navigation
+from .handler.post_add_handler import add_post_img
 from .forms import PostForm
 from .models import Post
 
@@ -27,8 +28,8 @@ def create_post():
         )
         
         if form.image.data:
-            picture_file = save_picture(form.image.data)
-            new_post.image = picture_file
+            image = add_post_img(form.image.data)
+            new_post.image = image
 
         db.session.add(new_post)
         db.session.commit()
@@ -60,22 +61,14 @@ def update_post(id):
         post.enabled = form.enabled.data
         
         if form.image.data:
-            picture_file = save_picture(form.image.data)
-            post.image = picture_file
+            image = add_post_img(form.image.data)
+            post.image = image
 
         db.session.commit()
         flash('Post updated', 'success')
         return redirect(url_for('post_bp.view_post', id=post.id))
 
     return render_template('update_post.html', form=form, post=post)
-
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    picture_path = os.path.join(post_bp.root_path, 'static\\images', picture_fn)
-    form_picture.save(picture_path)
-    return picture_fn
 
 @post_bp.route('/post/<int:id>/delete', methods=['POST'])
 @login_required

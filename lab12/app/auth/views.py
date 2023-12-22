@@ -3,6 +3,7 @@ from flask import render_template, redirect, session, url_for, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 from .forms import RegistrationForm, LoginForm, ChangePasswordForm, UpdateAccountForm
 from collections import UserString
+from .handler.account_handler import add_account_img
 from . import auth
 from .. import db, navigation
 from .models import User
@@ -73,8 +74,8 @@ def account():
         current_user.about_me = form.about_me.data
 
         if form.picture.data:
-            picture_file = save_picture(form.picture.data)
-            current_user.image_file = picture_file
+            image = add_account_img(form.image.data)
+            current_user.image_file = image
 
         db.session.commit()
         flash('Your account has been updated!', 'success')
@@ -87,13 +88,6 @@ def account():
 
     return render_template('account.html', form=form)
 
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    picture_path = os.path.join(auth.root_path, 'static/images', picture_fn)
-    form_picture.save(picture_path)
-    return picture_fn
 
 @auth.after_request
 def after_request(response):

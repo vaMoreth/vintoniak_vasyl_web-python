@@ -13,7 +13,7 @@ class Post(db.Model):
     text = db.Column(db.String(1000))
     image = db.Column(db.String(255), default='postdefault.jpg')
     created = db.Column(db.TIMESTAMP, default=datetime.utcnow)
-    type = db.Column(db.Enum(PostType), default=PostType.OTHER)
+    type = db.Column(db.Enum(PostType), default="PUBLICATION")
     enabled = db.Column(db.Boolean, default=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

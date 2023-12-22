@@ -9,7 +9,7 @@
         {% for post in posts %}
             <div class="col-md-3 mb-3">
                 <div class="card">
-                    <img src="{{ url_for('static', filename='images/' + post.image) }}" alt="Post Image" class="card-img-top">
+                    <img src="{{ url_for('static', filename='images/posts/' + post.image) }}" alt="Post Image" class="card-img-top post-image">
                     <div class="card-body">
                         <h5 class="card-title">{{ post.title }}</h5>
                         <p class="card-text">{{ post.type.value }} - {{ "Enabled" if post.enabled else "Disabled" }}</p>

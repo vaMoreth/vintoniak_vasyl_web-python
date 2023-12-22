@@ -8,10 +8,11 @@
         <div class="col"></div>
         <div class="col-9">
             <h1>{{ post.title }}</h1>
-            <img src="{{ url_for('static', filename='images/' + post.image) }}" alt="Post Image" class="post-image">
+            <img src="{{ url_for('static', filename='images/posts/' + post.image) }}" alt="Post Image" class="post-image">
             <p>Type: {{ post.type.value }}</p>
             <p>Text: {{ post.text }}</p>
             <p>Created: {{ post.created }}</p>
+            <p>Written by: {{ post.user_id.username }}</p>
             <br><br>
             {% if current_user.is_authenticated and current_user.id == post.user_id %}
                 <a href="{{ url_for('post_bp.update_post', id=post.id) }} " class="btn btn-primary">Edit</a> <hr>

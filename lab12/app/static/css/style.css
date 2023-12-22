@@ -65,6 +65,11 @@ footer {
     padding: 15px;
 }
 
+.post-image {
+    width: auto;
+    height: 250px;
+}
+
 .add-posts {
     position: relative;
     left: 97%;
