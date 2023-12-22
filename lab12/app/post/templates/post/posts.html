@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Список постів{% endblock %}
+
+{% block content %}
+<div class="posts-view">
+    <a href="{{ url_for('post_bp.create_post') }}" class="btn btn-primary add-posts">+</a> <hr>
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/posts/' + post.image) }}" alt="Post Image" class="card-img-top post-image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.type.value }} - {{ "Enabled" if post.enabled else "Disabled" }}</p>
+                        <a href="{{ url_for('post_bp.view_post', id=post.id) }}" class="btn btn-primary">Переглянути</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
