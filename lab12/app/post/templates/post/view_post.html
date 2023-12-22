@@ -15,12 +15,29 @@
             <br><br>
             {% if current_user.is_authenticated and current_user.id == post.user_id %}
                 <a href="{{ url_for('post_bp.update_post', id=post.id) }} " class="btn btn-primary">Edit</a> <hr>
-                <form method="POST" action="{{ url_for('post_bp.delete_post', id=post.id) }}">
-                    <button type="submit" class="btn btn-primary">Delete</button>
-                </form>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Delete
+                    </button>
             {% endif %}
         </div>
         <div class="col"></div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Post Deleting</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Do you wanna delete post ?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a href="{{ url_for('post_bp.delete_post', id=post.id) }}" class="btn btn-warning">Delete</a>
+            </div>
+          </div>
+        </div>
     </div>
 </div>
 {% endblock %}

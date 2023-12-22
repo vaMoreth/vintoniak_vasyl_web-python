@@ -69,3 +69,7 @@ footer {
     position: relative;
     left: 97%;
 }
+
+.modal-content {
+    background-color: #1B1C1E!important;
+}

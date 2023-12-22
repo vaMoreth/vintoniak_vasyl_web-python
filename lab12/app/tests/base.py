@@ -2,6 +2,7 @@ from flask_testing import TestCase
 from app import create_app
 from app import db
 from app.auth.models import User
+from app.todo.models import Todo
 
 
 class BaseTestCase(TestCase):
@@ -14,7 +15,8 @@ class BaseTestCase(TestCase):
     def setUp(self):
         db.create_all()
         user = User(username='user', email='user@gmail.com', password='1234')
-        db.session.add(user)
+        todo = Todo(todo_item='test todo', description='This is a description')
+        db.session.add_all([user, todo])
         db.session.commit()
 
     def tearDown(self):

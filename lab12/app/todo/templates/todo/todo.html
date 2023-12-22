@@ -3,60 +3,11 @@
 {% block title %}Список Todo{% endblock %}
 
 {% block content %}
-    <!-- <div class="todo_add">
-        <h1 class="namesH">Додати нове Todo</h1><hr>
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            {{ form.todo_item.label }} {{ form.todo_item(class="inputs") }} <br>
-            {{ form.description.label }} {{ form.description(class="inputs") }} <br>
-            {{ form.status.label }} {{ form.status}} <br>
-            {{ form.submit(class="btn_submit") }}
-        </form>
-
-        <hr><h1 class="namesH">Список Todo</h1><hr>
-        <table class="todo_table">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Todo_Item</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for todo in todos %}
-                    <tr>
-                        <td>{{ todo.id }}</td>
-                        <td>{{ todo.todo_item }}</td>
-                        <td>{{ 'Done' if todo.status else 'Not Done' }}</td>
-                        <td>
-                            <a href="{{ url_for('todo.edit_todo', id=todo.id) }}">Edit</a> |
-                            <form method="post" action="{{ url_for('todo.delete_todo', id=todo.id) }}">
-                                <button type="submit" class="btn-link">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div> -->
-
     <div class="container text-center">
         <div class="row">
             <div class="col"></div>
             <div class="col-4">
-                <h1>Додати нове Todo</h1>
-                <hr>
-                <form method="POST">
-                    {{ form.hidden_tag() }}
-                        {{ form.todo_item.label(class="form-label") }}
-                        {{ form.todo_item(class="form-control") }} <br>
-                        {{ form.description.label(class="form-label") }}
-                        {{ form.description(class="form-control") }} <br>
-                        {{ form.status(class="form-check-input") }}
-                        {{ form.status.label(class="form-check-label") }} <br><br>
-                    <button type="submit" class="btn btn-primary">Add Todo</button>
-                </form>
+                <a href="{{ url_for('todo.create_todo') }}" class="btn btn-success btn-sm">Add New</a>
                 <hr>
                 <h2>Список Todo</h2>
                 <table class="table">
@@ -76,9 +27,7 @@
                             <td>{{ 'Yes' if todo.status else 'No' }}</td>
                             <td>
                                 <a href="{{ url_for('todo.edit_todo', id=todo.id) }}" class="btn btn-info btn-sm">Edit</a>
-                                <form method="POST" action="{{ url_for('todo.delete_todo', id=todo.id) }}" style="display: inline;">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
+                                <a href="{{ url_for('todo.delete_todo', id=todo.id) }}" class="btn btn-danger btn-sm">Delete</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -87,6 +36,5 @@
             </div>
             <div class="col"></div>
         </div>
-        
     </div>
 {% endblock %}

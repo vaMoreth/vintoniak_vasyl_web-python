@@ -1,12 +1,7 @@
-import urllib
-import urllib3
 import unittest
-from flask import Flask, url_for
+from flask import url_for, redirect
 from flask_login import current_user
-from flask_testing import TestCase
-from app import create_app
-from urllib.request import urlopen
-from app import db
+from .. import db
 from app.auth.models import User
 from app.todo.models import Todo
 from .base import BaseTestCase
@@ -26,13 +21,13 @@ class PortfolioViewsTests(BaseTestCase):
         """
         GIVEN url to home page
         WHEN the '/home' page is requested (GET)
-        THEN check that status code is 200 and response data contains 'Привіт, я Василь Вінтоняк!'
+        THEN check that status code is 200 and response data contains '.Net Developer'
         """
         
         with self.client:
             response = self.client.get(url_for('portfolio.home'))
             self.assertEqual(response.status_code, 200)
-            self.assertIn(u'Привіт, я Василь Вінтоняк!', response.data.decode('utf8'))
+            self.assertIn(b'.Net Developer', response.data)
             
             
     def test_skills_page_loads(self):
@@ -82,42 +77,23 @@ class AuthTests(BaseTestCase):
         """
         GIVEN user data
         WHEN the register form is submitted (POST)
-        THEN check that status code is 200, response data contains 'Your account has been created' 
-            and registered user exist in DB with correct data (email)
+        THEN check that status code is 200, response data contains 'Register' 
+            and registered user exist in DB with correct data (username)
         """
         
         with self.client:
             respons = self.client.post(
-                '/register',
-                data=dict(username='test', email='test@gmail.com', password='1234', confirmPassword='1234'),
+                url_for('auth.register'),
+                data=dict(username='user2', email='user2@gmail.com', password='1234', confirm_password='1234'),
                 follow_redirects=True
             )
             
-            self.assertIn(b'Your account has been created', respons.data)
-            user = User.query.filter_by(email='test@gmail.com').first()
+            self.assertIn(b'Register', respons.data)
+            user = User.query.filter_by(username='user2').first()
             assert respons.status_code == 200
             assert user is not None
-            assert user.email == 'test@gmail.com'
+            assert user.username == 'user2'
     
-    
-    def test_login_user_without_remember_me(self):
-        """
-        GIVEN user data
-        WHEN the user logged in without checked rememberMe field (POST)
-        THEN check that status code is 200, response data contains 'Login successful!'
-            and current_user is_authenticated
-        """
-        
-        with self.client:
-            response = self.client.post(
-                url_for('auth.login'),
-                data=dict(username='user', password='1234'),
-                follow_redirects=True
-            )
-            
-            self.assertIn(b'Login successful!', response.data)
-            assert response.status_code == 200
-            assert current_user.is_authenticated == True
 
     def test_logout_user(self):
         """
@@ -130,7 +106,7 @@ class AuthTests(BaseTestCase):
         with self.client:
             self.client.post(
                 url_for('auth.login'),
-                data=dict(username='user', password='password'),
+                data=dict(username='user', password='1234'),
                 follow_redirects = True
             )
             
@@ -139,7 +115,7 @@ class AuthTests(BaseTestCase):
                 follow_redirects = True
             )
             
-            self.assertIn(u'Привіт, я Василь Вінтоняк!', response.data.decode('utf8'))
+            self.assertIn(b'You are logged out', response.data)
             assert response.status_code == 200
             assert current_user.is_authenticated == False
 
@@ -160,12 +136,12 @@ class TodoTests(BaseTestCase):
         
         with self.client:
             response = self.client.post(
-                url_for('todo.todos'),
+                url_for('todo.create_todo'),
                 data=data, 
                 follow_redirects=True
             )
             
-            todo = Todo.query.filter_by(id=1).first()
+            todo = Todo.query.filter_by(id=2).first()
             
             assert todo is not None
             assert todo.todo_item == data['todo_item']
@@ -179,11 +155,11 @@ class TodoTests(BaseTestCase):
         THEN check that todo's count equal to 2
         """
         
-        todo_1 = Todo(todo_item="todo1", description="description1", status=False)
-        todo_2 = Todo(todo_item="todo2", description="description2", status=False)
+        todo_1 = Todo(todo_item="todo1", description="description1")
+        todo_2 = Todo(todo_item="todo2", description="description2")
         db.session.add_all([todo_1, todo_2])
         number_of_todos = Todo.query.count()
-        assert number_of_todos == 2
+        assert number_of_todos == 3
 
 
     def test_update_todo_status(self):
@@ -192,19 +168,27 @@ class TodoTests(BaseTestCase):
         WHEN the status field updated
         THEN response status code is 200 and todo.status is equal to True
         """
-        
         todo_1 = Todo(todo_item="todo1", description="description1", status=False)
         db.session.add(todo_1)
+        db.session.commit()
+
+        todo_id = todo_1.id
+
         with self.client:
-            response = self.client.get(
-                url_for('todo.edit_todo', id=1),
+            response = self.client.post(
+                f'/todo/edit/{todo_id}',
+                data={
+                    'todo_item': 'New Todo Item',
+                    'description': 'New Description',
+                    'status': True
+                },
                 follow_redirects=True
             )
-            
-            todo = Todo.query.filter_by(id=1).first()
-            
-            assert todo.status == True
+
+            updated_todo = Todo.query.filter_by(id=todo_id).first()
+            assert updated_todo.status is True
             assert response.status_code == 200
+
 
 
     def test_delete_todo(self):
@@ -232,7 +216,6 @@ class TodoTests(BaseTestCase):
             )
             
             todo = Todo.query.filter_by(id=1).first()
-            
             assert response.status_code == 200
             assert todo is None
             

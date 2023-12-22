@@ -6,4 +6,4 @@ class TodoForm(FlaskForm):
     todo_item = StringField('Todo Item', validators=[DataRequired()])
     status = BooleanField('Status')
     description = StringField('Description')
-    submit = SubmitField('Submit')
+    submit = SubmitField('Add Todo')
