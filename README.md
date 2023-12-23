@@ -93,24 +93,23 @@ __2. Скріншот з успішним проходженням тестів_
 
 __1. GET - all todos__:
 
-![](lab13/get_all_todos.png)
+![](Lab13/get_all_todos.png)
 
 __2. POST__:
 
-![](lab13/post_todo.png)
+![](Lab13/post_todo.png)
 
 __3. GET - by id todo__:
 
-![](lab13/get_by_id_todo.png)
+![](Lab13/get_by_id_todo.png)
 
 __4. PUT__:
 
-![](lab13/put_todo.png)
+![](Lab13/put_todo.png)
 
 __5. DELETE__:
 
-![](lab13/delete_todo.png)
+![](Lab13/delete_todo.png)
 
 [Вверх](#anchor)
 
----
