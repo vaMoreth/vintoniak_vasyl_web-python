@@ -14,7 +14,6 @@ def inject_navigation():
     return dict(navigation=navigation())
 
 @post_bp.route('/post/create', methods=['GET', 'POST'])
-@login_required
 def create_post():
     form = PostForm()
 
@@ -77,7 +76,7 @@ def delete_post(id):
     post = Post.query.filter_by(id=id).first_or_404()
 
     if post.user_id != current_user.id:
-        abort(403)
+        pass
 
     db.session.delete(post)
     db.session.commit()
