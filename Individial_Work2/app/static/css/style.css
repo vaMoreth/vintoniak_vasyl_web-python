@@ -1,0 +1,96 @@
+body {
+    background-color: #2b2b2b!important;
+    color: white;
+}
+
+.bg-primary {
+    background-color: #1B1C1E!important;
+}
+
+.navbar-brand {
+    font-size: 20px!important;
+}
+
+.navbar-nav {
+    font-size: 25px;
+}
+
+.container {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+}
+
+footer {
+    background: #2f2f2f;
+    color: white;
+}
+
+.skills_ul, .h2_skills {
+    margin: auto;
+    list-style: none;
+}
+
+.skills_ul li {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 24px;
+}
+
+.user_image {
+    width: 150px;
+    height: 150px;
+}
+
+.btn-primary {
+    background-color: #1B1C1E!important;
+    border-color: #2f2f2f!important;
+}
+
+.btn-primary:hover {
+    background: #2f2f2f!important;
+    border-color: #1B1C1E!important;
+}
+
+.small_text {
+    font-size: 15px;
+}
+
+.posts-view {
+    overflow: hidden;
+    padding: 15px;
+}
+
+.post-image {
+    width: auto;
+    height: 250px;
+}
+
+.add-posts {
+    position: relative;
+    left: 97%;
+}
+
+.page-link:hover, .page-link:focus {
+    background: #2f2f2f!important;
+    border-color: #1B1C1E!important;
+}
+
+
+.page-link:hover{
+    color: white
+}
+
+.page-link {
+    background-color: #1B1C1E!important;
+    border-color: #2f2f2f!important;
+    color: white
+}
+
+.modal-content {
+    background-color: #1B1C1E!important;
+}

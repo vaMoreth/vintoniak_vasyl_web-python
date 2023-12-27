@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Список Todo{% endblock %}
+
+{% block content %}
+    <div class="container text-center">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-4">
+                <a href="{{ url_for('todo.create_todo') }}" class="btn btn-success btn-sm">Add New</a>
+                <hr>
+                <h2>Список Todo</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Completed</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for todo in todos %}
+                        <tr>
+                            <td>{{ todo.todo_item }}</td>
+                            <td>{{ todo.description }}</td>
+                            <td>{{ 'Yes' if todo.status else 'No' }}</td>
+                            <td>
+                                <a href="{{ url_for('todo.edit_todo', id=todo.id) }}" class="btn btn-info btn-sm">Edit</a>
+                                <a href="{{ url_for('todo.delete_todo', id=todo.id) }}" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
