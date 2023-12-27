@@ -4,7 +4,6 @@ from app.auth.models import User
 from datetime import datetime, timedelta
 from app import db, basic_auth
 from flask import jsonify, request, make_response
-from werkzeug.security import check_password_hash
 from flask_jwt_extended import jwt_required
 from config import Config
 from . import api_bp

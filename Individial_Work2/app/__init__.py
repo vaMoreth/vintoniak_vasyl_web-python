@@ -43,6 +43,7 @@ def create_app(config_name: str):
         from .users.views import users
         from .api import api_bp
         from .post.views import post_bp
+        from .students import students_bp
         app.register_blueprint(todo)
         app.register_blueprint(feedback)
         app.register_blueprint(portfolio)
@@ -50,5 +51,6 @@ def create_app(config_name: str):
         app.register_blueprint(users)
         app.register_blueprint(api_bp)
         app.register_blueprint(post_bp)
+        app.register_blueprint(students_bp)
         
         return app
