@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Список Todo{% endblock %}
+
+{% block content %}
+    <div class="container text-center">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-4">
+                <h1>Додати нове Todo</h1>
+                <hr>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                        {{ form.todo_item.label(class="form-label") }}
+                        {{ form.todo_item(class="form-control") }} <br>
+                        {{ form.description.label(class="form-label") }}
+                        {{ form.description(class="form-control") }} <br>
+                        {{ form.status(class="form-check-input") }}
+                        {{ form.status.label(class="form-check-label") }} <br><br>
+                        {{ form.submit(class="btn btn-primary") }}
+                </form>   
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
