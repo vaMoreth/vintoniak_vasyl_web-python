@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from app.todo.models import Todo
 from app.auth.models import User
+from app.students.models import Student
 from datetime import datetime, timedelta
 from app import db, basic_auth
 from flask import jsonify, request, make_response
@@ -17,6 +18,7 @@ def verify_password(username, password):
         return True
     return False
 
+#Login API
 
 @api_bp.route('/login')
 def login():
@@ -42,6 +44,7 @@ def login():
 
     return make_response('Invalid username or password', 401, {'WWW-Authenticate': 'Bearer realm="Authentication Required"'})
 
+#Todo API
 
 @api_bp.route('/todos', methods=['GET'])
 @jwt_required()
@@ -99,3 +102,61 @@ def delete_todo(id):
     db.session.delete(todo)
     db.session.commit()
     return jsonify({'message': 'Todo deleted successfully'}), 200
+
+
+# Students API
+
+@api_bp.route('/students', methods=['GET'])
+@jwt_required()
+def get_students():
+    students = Student.query.all()
+    students_list = [{
+        'id': student.id,
+        'name': student.name,
+        'surname': student.surname,
+        'course': student.course
+    } for student in students]
+    return jsonify({'students': students_list})
+
+@api_bp.route('/students/<int:id>', methods=['GET'])
+@jwt_required()
+def get_student(id):
+    student = Student.query.get_or_404(id)
+    return jsonify({
+        'id': student.id,
+        'name': student.name,
+        'surname': student.surname,
+        'course': student.course
+    })
+
+@api_bp.route('/students', methods=['POST'])
+@jwt_required()
+def create_student():
+    data = request.json
+    new_student = Student(
+        name=data['name'],
+        surname=data['surname'],
+        course=data['course']
+    )
+    db.session.add(new_student)
+    db.session.commit()
+    return jsonify({'message': 'Student created successfully'}), 201
+
+@api_bp.route('/students/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_student(id):
+    student = Student.query.get_or_404(id)
+    data = request.json
+    student.name = data.get('name', student.name)
+    student.surname = data.get('surname', student.surname)
+    student.course = data.get('course', student.course)
+    db.session.commit()
+    return jsonify({'message': 'Student updated successfully'}), 200
+
+@api_bp.route('/students/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_student(id):
+    student = Student.query.get_or_404(id)
+    db.session.delete(student)
+    db.session.commit()
+    return jsonify({'message': 'Student deleted successfully'}), 200
