@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Список постів{% endblock %}
+
+{% block content %}
+<div class="posts-view">
+    <a href="{{ url_for('post_bp.create_post') }}" class="btn btn-primary add-posts">+</a> <hr>
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/posts/' + post.image) }}" alt="Post Image" class="card-img-top post-image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.type.value }} - {{ "Enabled" if post.enabled else "Disabled" }}</p>
+                        <a href="{{ url_for('post_bp.view_post', id=post.id) }}" class="btn btn-primary">Переглянути</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <br><hr>
+        <nav aria-label=''>
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not posts.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('post_bp.posts', page=posts.prev_num) }}"><</a>
+                </li>
+
+                {% for page_num in posts.iter_pages()  %}
+                    <li class="page-item {% if page_num == posts.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('post_bp.posts', page=page_num ) }}">{{page_num}}</a>
+                    </li>
+                {% endfor %}
+
+                <li class="page-item {% if not posts.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('post_bp.posts', page=posts.next_num) }}">></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
