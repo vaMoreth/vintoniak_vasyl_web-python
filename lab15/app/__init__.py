@@ -1,15 +1,29 @@
 from flask import Flask
+from flask_swagger_ui import get_swaggerui_blueprint
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_httpauth import HTTPBasicAuth
 from flask_jwt_extended import JWTManager
+from flask_marshmallow import Marshmallow
 from config import config
 
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 basic_auth = HTTPBasicAuth(scheme='Bearer')
+ma = Marshmallow()
+
+SWAGGER_URL = '/api/docs'
+API_URL = '/static/swagger.json'
+
+swaggerui = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "Test application"
+    },
+)
 
 def navigation():
     return {
@@ -28,6 +42,7 @@ def create_app(config_name: str):
     app.config.from_object(config.get(config_name))
     
     db.init_app(app)
+    ma.init_app(app)
     Migrate(app, db)
     JWTManager(app)
     
@@ -44,6 +59,7 @@ def create_app(config_name: str):
         from .api import api_bp
         from .post.views import post_bp
         from .students import students_bp
+        from .user_api import users_api
         app.register_blueprint(todo)
         app.register_blueprint(feedback)
         app.register_blueprint(portfolio)
@@ -52,5 +68,7 @@ def create_app(config_name: str):
         app.register_blueprint(api_bp)
         app.register_blueprint(post_bp)
         app.register_blueprint(students_bp)
+        app.register_blueprint(users_api)
+        app.register_blueprint(swaggerui)
         
         return app
